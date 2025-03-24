@@ -14,15 +14,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/team" className="text-gray-300 hover:text-white transition-colors">
-                  Our Team
+                <Link href="/services" className="text-gray-300 hover:text-white transition-colors">
+                  Our Services
                 </Link>
               </li>
-              <li>
-                <Link href="/careers" className="text-gray-300 hover:text-white transition-colors">
-                  Careers
-                </Link>
-              </li>
+             
             </ul>
           </div>
           <div>
@@ -78,9 +74,9 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
             <ul className="space-y-2">
-              <li className="text-gray-300">Email: support@bankname.com</li>
-              <li className="text-gray-300">Phone: +1-800-555-1234</li>
-              <li className="text-gray-300">Address: 123 Finance Street, City, Country</li>
+              <li className="text-gray-300">Email: support@varanta.com</li>
+              <li className="text-gray-300">Phone: +91 9238197491</li>
+              <li className="text-gray-300">Address: Shaitan Raja Bangla, Andheri Nagri</li>
             </ul>
             <div className="flex space-x-4 mt-4">
               <Link href="#" className="text-gray-300 hover:text-white transition-colors">
@@ -119,7 +115,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-gray-800 text-center">
-          <p className="text-gray-400">© 2025 BankName. All Rights Reserved.</p>
+          <p className="text-gray-400">© 2025 Varanta. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

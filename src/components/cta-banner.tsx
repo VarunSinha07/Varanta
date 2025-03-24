@@ -29,13 +29,13 @@ export default function CtaBanner() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
+                <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-white text-white hover:bg-white/10"
-              >
+                className="w-full sm:w-auto border-white text-primary hover:text-white hover:bg-white/10"
+                >
                 Login Now
-              </Button>
+                </Button>
             </motion.div>
           </div>
         </motion.div>

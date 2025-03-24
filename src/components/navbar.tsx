@@ -40,13 +40,13 @@ export default function Navbar() {
 
   return (
     <header className={headerClass}>
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex-shrink-0">
+      <div className="container mx-auto flex items-center justify-between ">
+        <div className="flex-shrink-0 px-8">
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative h-10 w-10 overflow-hidden rounded-full bg-primary">
-              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">B</div>
+              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">VD</div>
             </div>
-            <span className="font-bold text-xl text-primary">BankName</span>
+            <span className="font-bold text-xl text-primary">Varanta</span>
           </Link>
         </div>
 
@@ -70,7 +70,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right-aligned buttons */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4 px-8">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href="/login">
               <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
