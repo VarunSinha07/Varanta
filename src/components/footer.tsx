@@ -74,7 +74,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
             <ul className="space-y-2">
-              <li className="text-gray-300">Email: support@varanta.com</li>
+              <li className="text-gray-300">Email: varunsinha2604@gmail.com</li>
               <li className="text-gray-300">Phone: +91 9238197491</li>
               <li className="text-gray-300">Address: Shaitan Raja Bangla, Andheri Nagri</li>
             </ul>
@@ -115,7 +115,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-gray-800 text-center">
-          <p className="text-gray-400">© 2025 Varanta. All Rights Reserved.</p>
+          <p className="text-gray-400">© 2025 VarDaanGrow. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

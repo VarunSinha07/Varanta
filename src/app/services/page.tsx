@@ -5,10 +5,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useInView, useAnimation } from "framer-motion"
 import { Wallet, DollarSign, CreditCard, Clock } from "lucide-react"
-
+import AnimatedBackground from "@/components/animated-background"
 import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+
 import CtaBanner from "@/components/cta-banner"
 
 export default function ServicesPage() {
@@ -20,7 +20,7 @@ export default function ServicesPage() {
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-blue-100"></div>
-          <BackgroundAnimation />
+          <AnimatedBackground />
         </div>
         <div className="container mx-auto relative z-10 px-4">
           <motion.div
@@ -163,43 +163,11 @@ export default function ServicesPage() {
       {/* CTA Banner */}
       <CtaBanner />
 
-      {/* Footer */}
-      <Footer />
+      
     </div>
   )
 }
 
-// Background Animation Component
-function BackgroundAnimation() {
-  return (
-    <div className="absolute inset-0">
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-primary/5"
-          style={{
-            width: Math.random() * 300 + 50,
-            height: Math.random() * 300 + 50,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            opacity: Math.random() * 0.5 + 0.1,
-          }}
-          animate={{
-            x: [0, Math.random() * 50 - 25],
-            y: [0, Math.random() * 50 - 25],
-            scale: [1, Math.random() * 0.2 + 0.9],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 15,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  )
-}
 
 // Animated Header Component
 function AnimatedHeader({ title, subtitle }: { title: string; subtitle: string }) {

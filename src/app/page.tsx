@@ -6,7 +6,7 @@ import { Wallet, DollarSign, CreditCard, Clock, Lock, Headphones, Users } from "
 
 import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+
 import CtaBanner from "@/components/cta-banner"
 import AnimatedBackground from "@/components/animated-background"
 import TestimonialCarousel from "@/components/testimonial-carousel"
@@ -215,8 +215,6 @@ export default function Home() {
       {/* CTA Banner */}
       <CtaBanner />
 
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }
