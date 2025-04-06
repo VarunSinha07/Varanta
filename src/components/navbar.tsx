@@ -145,15 +145,15 @@ export default function Navbar() {
         {/* Right-aligned buttons */}
         <div className="hidden md:flex items-center space-x-4 px-8">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link href="/login">
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+            <Link href="/sign-in">
+              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 cursor-pointer">
                 Login
               </Button>
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link href="/register">
-              <Button className="bg-primary hover:bg-primary/90 text-white">Register</Button>
+            <Link href="/sign-up">
+              <Button className="bg-primary hover:bg-primary/90 text-white cursor-pointer">Register</Button>
             </Link>
           </motion.div>
         </div>

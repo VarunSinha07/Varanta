@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            String    @id 
   email         String    @unique
-  name          String?
+  name          String
+  role          String    @default("user")
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  customer      Customer?
 
   @@map("user")
 }
@@ -30,15 +29,14 @@ model User {
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime
   updatedAt DateTime
   ipAddress String?
   userAgent String?
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@map("session")
 }
 
@@ -46,8 +44,7 @@ model Account {
   id                    String    @id
   accountId             String
   providerId            String
-  userId                Int
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -57,6 +54,7 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
@@ -70,4 +68,131 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Customer {
+  id          Int           @id @default(autoincrement())
+  userId      String        @unique
+  name        String
+  dob         DateTime
+  phone       String
+  address     String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  bankAccounts BankAccount[]
+  transactions Transaction[]
+  loans        Loan[]
+  cards        Card[]
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("customer")
+}
+
+model BankAccount {
+  id            Int           @id @default(autoincrement())
+  accountNumber String        @unique
+  customerId    Int
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  accountType   AccountType
+  balance       Decimal       @default(0)
+  interestRate  Decimal?
+  status        AccountStatus @default(ACTIVE)
+  branchName    String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  transactions  Transaction[]
+
+  @@map("bank_account")
+}
+
+model Transaction {
+  id              Int             @id @default(autoincrement())
+  transactionId   String          @unique @default(cuid())
+  amount          Decimal
+  transactionType TransactionType
+  date            DateTime        @default(now())
+  customerId      Int
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  accountId       Int?
+  account         BankAccount?    @relation(fields: [accountId], references: [id])
+  description     String?
+  status          TransactionStatus @default(COMPLETED)
+
+  @@map("transaction")
+}
+
+model Loan {
+  id           Int        @id @default(autoincrement())
+  loanId       String     @unique @default(cuid())
+  customerId   Int
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  amount       Decimal
+  interestRate Decimal
+  duration     Int        // in months
+  startDate    DateTime   @default(now())
+  endDate      DateTime
+  status       LoanStatus @default(PENDING)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("loan")
+}
+
+model Card {
+  id           Int       @id @default(autoincrement())
+  cardId       String    @unique @default(cuid())
+  cardNumber   String    @unique
+  customerId   Int
+  customer     Customer  @relation(fields: [customerId], references: [id])
+  cardType     CardType
+  expiryDate   DateTime
+  cvv          String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("card")
+}
+
+enum AccountType {
+  SAVINGS
+  CHECKING
+  FIXED_DEPOSIT
+  RECURRING_DEPOSIT
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+  FROZEN
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REVERSED
+}
+
+enum LoanStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ACTIVE
+  CLOSED
+  DEFAULTED
+}
+
+enum CardType {
+  DEBIT
+  CREDIT
+  PREPAID
 }
