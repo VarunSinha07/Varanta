@@ -10,26 +10,24 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { ArrowDownToLine, ArrowUpFromLine, CreditCard, FileText, Wallet } from "lucide-react"
+import { DollarSign, CreditCard, ArrowUpDown, MessageSquare } from "lucide-react"
 
 const transactionFormSchema = z.object({
   accountId: z.string({
     required_error: "Please select an account",
   }),
-  amount: z.string().refine(
-    (val) => {
-      const num = Number.parseFloat(val)
-      return !isNaN(num) && num > 0
-    },
-    { message: "Amount must be greater than 0" },
-  ),
-  transactionType: z.enum(["DEPOSIT", "WITHDRAWAL"], {
+  transactionType: z.enum(["DEPOSIT", "WITHDRAW", "TRANSFER"], {
     required_error: "Please select a transaction type",
   }),
-  description: z.string().optional(),
+  amount: z.string().refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
+    message: "Amount must be a positive number",
+  }),
+  receiverAccountId: z.string().optional(),
+  pin: z.string().regex(/^\d{4}$/, "PIN must be exactly 4 digits"),
+  reason: z.string().optional(),
 })
 
 type TransactionFormValues = z.infer<typeof transactionFormSchema>
@@ -62,26 +60,27 @@ export default function CreateTransaction() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [accounts, setAccounts] = useState<
     {
-      id: number
-      accountType: string
+      id: string
       accountNumber: string
+      accountType: string
       balance: string
+      status: string
     }[]
   >([])
-  const [loading, setLoading] = useState(true)
+  const [showReceiverField, setShowReceiverField] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
 
-  const accountIdParam = searchParams.get("accountId")
-
   const form = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
-      accountId: accountIdParam || "",
-      amount: "",
+      accountId: searchParams.get("accountId") || "",
       transactionType: "DEPOSIT",
-      description: "",
+      amount: "",
+      receiverAccountId: "",
+      pin: "",
+      reason: "",
     },
   })
 
@@ -91,7 +90,11 @@ export default function CreateTransaction() {
         const response = await fetch("/api/accounts")
         if (response.ok) {
           const data = await response.json()
-          setAccounts(data)
+          // Filter only approved accounts with PIN set
+          const approvedAccounts = data.filter(
+            (account: { approvalStatus: string; pin: string | null }) => account.approvalStatus === "APPROVED" && account.pin !== null
+          )
+          setAccounts(approvedAccounts)
         } else {
           throw new Error("Failed to fetch accounts")
         }
@@ -102,13 +105,21 @@ export default function CreateTransaction() {
           description: "Failed to load accounts",
           variant: "destructive",
         })
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchAccounts()
   }, [toast])
+
+  // Watch for transaction type changes to show/hide receiver field
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "transactionType") {
+        setShowReceiverField(value.transactionType === "TRANSFER")
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form])
 
   async function onSubmit(data: TransactionFormValues) {
     setIsSubmitting(true)
@@ -118,25 +129,22 @@ export default function CreateTransaction() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...data,
-          accountId: Number.parseInt(data.accountId),
-        }),
+        body: JSON.stringify(data),
       })
 
       if (response.ok) {
         toast({
-          title: "Transaction completed",
-          description: "Your transaction has been processed successfully",
+          title: "Transaction successful",
+          description: `Your ${data.transactionType.toLowerCase()} transaction has been processed`,
         })
         router.push("/dashboard/transactions")
       } else {
         const error = await response.json()
-        throw new Error(error.error || "Failed to process transaction")
+        throw new Error(error.error || `Failed to process ${data.transactionType.toLowerCase()} transaction`)
       }
-    } catch (error: Error | unknown) {
+    } catch (error: unknown) {
       toast({
-        title: "Error",
+        title: "Transaction failed",
         description: error instanceof Error ? error.message : "Failed to process transaction",
         variant: "destructive",
       })
@@ -145,60 +153,14 @@ export default function CreateTransaction() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
-        <div className="relative">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          <div className="absolute inset-0 rounded-full animate-ping opacity-75 bg-blue-400 h-12 w-12 blur-sm"></div>
-        </div>
-      </div>
-    )
-  }
-
-  if (accounts.length === 0) {
-    return (
-      <motion.div
-        className="container mx-auto px-4 py-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Card className="max-w-md mx-auto overflow-hidden border-none shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-          <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
-            <CardTitle className="flex items-center">
-              <Wallet className="mr-2 h-5 w-5" />
-              No Accounts Available
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-              <p className="mb-6 text-center text-gray-700">
-                You need to create a bank account before making transactions.
-              </p>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={() => router.push("/dashboard/accounts/create")}
-                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white"
-                >
-                  Create Account
-                </Button>
-              </motion.div>
-            </motion.div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    )
-  }
-
   return (
     <motion.div className="container mx-auto px-4 py-8" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
         <Card className="max-w-md mx-auto overflow-hidden border-none shadow-lg">
           <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
             <CardTitle className="flex items-center">
-              <Wallet className="mr-2 h-5 w-5" />
-              New Transaction
+              <DollarSign className="mr-2 h-5 w-5" />
+              Create Transaction
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 pt-8">
@@ -216,15 +178,14 @@ export default function CreateTransaction() {
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="border-blue-200 focus:ring-blue-500">
+                            <SelectTrigger>
                               <SelectValue placeholder="Select an account" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {accounts.map((account) => (
-                              <SelectItem key={account.id} value={account.id.toString()}>
-                                {account.accountType} - {account.accountNumber} ($
-                                {Number.parseFloat(account.balance).toFixed(2)})
+                              <SelectItem key={account.id} value={account.id}>
+                                {account.accountNumber} ({account.accountType}) - ${parseFloat(account.balance).toFixed(2)}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -242,22 +203,19 @@ export default function CreateTransaction() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
-                          {field.value === "DEPOSIT" ? (
-                            <ArrowDownToLine className="mr-2 h-4 w-4" />
-                          ) : (
-                            <ArrowUpFromLine className="mr-2 h-4 w-4" />
-                          )}
+                          <ArrowUpDown className="mr-2 h-4 w-4" />
                           Transaction Type
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="border-blue-200 focus:ring-blue-500">
+                            <SelectTrigger>
                               <SelectValue placeholder="Select transaction type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             <SelectItem value="DEPOSIT">Deposit</SelectItem>
-                            <SelectItem value="WITHDRAWAL">Withdrawal</SelectItem>
+                            <SelectItem value="WITHDRAW">Withdraw</SelectItem>
+                            <SelectItem value="TRANSFER">Transfer</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -273,17 +231,69 @@ export default function CreateTransaction() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
-                          <Wallet className="mr-2 h-4 w-4" />
+                          <DollarSign className="mr-2 h-4 w-4" />
                           Amount
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            placeholder="100.00"
-                            {...field}
-                            className="border-blue-200 focus:ring-blue-500"
-                          />
+                          <Input type="number" step="0.01" placeholder="0.00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                {showReceiverField && (
+                  <motion.div
+                    variants={itemVariants}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <FormField
+                      control={form.control}
+                      name="receiverAccountId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center text-blue-700">
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            Recipient Account
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select recipient account" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {accounts
+                                .filter((account) => account.id !== form.getValues("accountId"))
+                                .map((account) => (
+                                  <SelectItem key={account.id} value={account.id}>
+                                    {account.accountNumber} ({account.accountType})
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+                )}
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="reason"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-blue-700">
+                          <MessageSquare className="mr-2 h-4 w-4" />
+                          Reason (Optional)
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Enter reason for transaction" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -294,19 +304,15 @@ export default function CreateTransaction() {
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
-                    name="description"
+                    name="pin"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
-                          <FileText className="mr-2 h-4 w-4" />
-                          Description (Optional)
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          Account PIN
                         </FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Transaction description"
-                            {...field}
-                            className="border-blue-200 focus:ring-blue-500 min-h-[100px]"
-                          />
+                          <Input type="password" maxLength={4} placeholder="Enter 4-digit PIN" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -314,20 +320,18 @@ export default function CreateTransaction() {
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div
+                  variants={itemVariants}
+                  className="pt-4"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white"
+                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        Processing...
-                      </div>
-                    ) : (
-                      "Complete Transaction"
-                    )}
+                    {isSubmitting ? "Processing..." : "Submit Transaction"}
                   </Button>
                 </motion.div>
               </form>
@@ -338,4 +342,5 @@ export default function CreateTransaction() {
     </motion.div>
   )
 }
-
+      
+    

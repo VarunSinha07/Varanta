@@ -110,7 +110,7 @@ export default function ServicesPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <AnimatedHeader
-            title="Why Choose Varanta ?"
+            title="Why Choose VarDaanGrow ?"
             subtitle="Experience the benefits of our comprehensive banking solutions."
           />
 

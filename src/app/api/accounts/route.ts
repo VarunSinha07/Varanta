@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
     if (!customer) {
       return NextResponse.json(
-        { error: "Customer profile not found" },
+        { error: "Customer profile not found. Please complete your profile first." },
         { status: 404 }
       );
     }
@@ -66,10 +66,11 @@ export async function POST(request: Request) {
     const account = await prisma.bankAccount.create({
       data: {
         accountNumber,
-        customerId: customer.id,
+        customerId: customer.id, // Ensure this matches an existing customer
         accountType: accountType as AccountType,
         branchName,
         interestRate: interestRate ? parseFloat(interestRate) : null,
+        approvalStatus: "PENDING", // Add this to require approval
       },
     });
 

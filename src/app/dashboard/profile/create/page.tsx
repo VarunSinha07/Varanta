@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { Calendar, Home, Phone, User } from "lucide-react"
+import { Calendar, Home, Phone, User, CreditCard, FileText } from "lucide-react"
 
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -23,6 +23,8 @@ const profileFormSchema = z.object({
   }, "You must be at least 18 years old"),
   phone: z.string().min(10, { message: "Please enter a valid phone number" }),
   address: z.string().min(5, { message: "Address is required" }),
+  panNumber: z.string().regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number format"),
+  aadharNumber: z.string().regex(/^\d{12}$/, "Aadhar number must be 12 digits"),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -63,6 +65,8 @@ export default function CreateProfile() {
       dob: "",
       phone: "",
       address: "",
+      panNumber: "",
+      aadharNumber: "",
     },
   })
 
@@ -195,6 +199,52 @@ export default function CreateProfile() {
                   />
                 </motion.div>
 
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="panNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-blue-700">
+                          <FileText className="mr-2 h-4 w-4" />
+                          PAN Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="ABCDE1234F"
+                            {...field}
+                            className="border-blue-200 focus:ring-blue-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="aadharNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-blue-700">
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          Aadhar Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="123456789012"
+                            {...field}
+                            className="border-blue-200 focus:ring-blue-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
                 <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button
                     type="submit"
@@ -219,4 +269,3 @@ export default function CreateProfile() {
     </motion.div>
   )
 }
-

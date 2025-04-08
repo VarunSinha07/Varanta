@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { ArrowUpRight, BarChart3, CreditCard, DollarSign, RefreshCw, Wallet } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+
 
 interface Customer {
   id: string
@@ -56,55 +57,60 @@ const itemVariants = {
   },
 }
 
-export default function DashboardClient({
-  initialCustomer,
-  initialAccounts,
-  initialTransactions,
-}: {
+interface DashboardClientProps {
   initialCustomer: Customer | null
   initialAccounts: Account[]
   initialTransactions: Transaction[]
-}) {
-  const [customer] = useState(initialCustomer)
-  const [accounts, setAccounts] = useState(initialAccounts)
-  const [transactions, setTransactions] = useState(initialTransactions)
+}
+
+export default function DashboardClient({ 
+  initialCustomer, 
+  initialAccounts, 
+  initialTransactions 
+}: DashboardClientProps) {
+  const [customer] = useState<Customer | null>(initialCustomer)
+  const [accounts, setAccounts] = useState<Account[]>(initialAccounts || [])
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions || [])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
+ 
 
-  const refreshData = async () => {
-    setLoading(true)
-    try {
-      const [accountsRes, transactionsRes] = await Promise.all([fetch("/api/accounts"), fetch("/api/transactions")])
-
-      if (!accountsRes.ok || !transactionsRes.ok) {
-        throw new Error(
-          `Failed to fetch data: 
-           Accounts - ${accountsRes.status} ${accountsRes.statusText}
-           Transactions - ${transactionsRes.status} ${transactionsRes.statusText}`,
-        )
-      }
-
-      const [accountsData, transactionsData] = await Promise.all([accountsRes.json(), transactionsRes.json()])
-
-      setAccounts(accountsData)
-      setTransactions(transactionsData)
-
-      toast({
-        title: "Data refreshed",
-        description: "Your dashboard has been updated with the latest data",
-      })
-    } catch (error) {
-      console.error("Refresh error:", error)
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to refresh data",
-        variant: "destructive",
-      })
-    } finally {
-      setLoading(false)
+ const refreshData = useCallback(async () => {
+  setLoading(true)
+  try {
+    const [accountsRes, transactionsRes] = await Promise.all([
+      fetch("/api/accounts"), 
+      fetch("/api/transactions")
+    ])
+    
+    if (!accountsRes.ok || !transactionsRes.ok) {
+      throw new Error(`Failed to fetch data`) 
     }
+
+    const [accountsData, transactionsData] = await Promise.all([
+      accountsRes.json(),
+      transactionsRes.json()
+    ])
+
+    setAccounts(accountsData)
+    setTransactions(transactionsData)
+    
+    toast({
+      title: "Data refreshed",
+      description: "Your dashboard has been updated with the latest data",
+    })
+  } catch (error) {
+    console.error("Refresh error:", error)
+    toast({
+      title: "Error",
+      description: error instanceof Error ? error.message : "Failed to refresh data",
+      variant: "destructive",
+    })
+  } finally {
+    setLoading(false)
   }
+}, [toast, setAccounts, setTransactions]) 
 
   if (!customer) {
     return (
@@ -142,6 +148,7 @@ export default function DashboardClient({
 
   return (
     <motion.div className="container mx-auto px-4 py-8" variants={containerVariants} initial="hidden" animate="visible">
+       
       <motion.div className="flex justify-between items-center mb-8" variants={itemVariants}>
         <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent">
           Welcome to Your Dashboard
@@ -386,4 +393,3 @@ export default function DashboardClient({
     </motion.div>
   )
 }
-

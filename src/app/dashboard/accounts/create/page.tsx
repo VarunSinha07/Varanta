@@ -65,7 +65,7 @@ export default function CreateAccount() {
   async function onSubmit(data: AccountFormValues) {
     setIsSubmitting(true)
     try {
-      const response = await fetch("/api/accounts", {
+      const response = await fetch("/api/accounts/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,18 +75,18 @@ export default function CreateAccount() {
 
       if (response.ok) {
         toast({
-          title: "Account created",
-          description: "Your bank account has been created successfully",
+          title: "Account request submitted",
+          description: "Your account request has been submitted for approval",
         })
         router.push("/dashboard/accounts")
       } else {
         const error = await response.json()
-        throw new Error(error.error || "Failed to create account")
+        throw new Error(error.error || "Failed to submit account request")
       }
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to create account",
+        description: error instanceof Error ? error.message : "Failed to submit account request",
         variant: "destructive",
       })
     } finally {
@@ -101,12 +101,13 @@ export default function CreateAccount() {
           <CardHeader className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
             <CardTitle className="flex items-center">
               <CreditCard className="mr-2 h-5 w-5" />
-              Open New Bank Account
+              Request New Bank Account
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 pt-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Rest of the form remains the same */}
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
@@ -119,13 +120,13 @@ export default function CreateAccount() {
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="border-emerald-200 focus:ring-emerald-500">
+                            <SelectTrigger>
                               <SelectValue placeholder="Select account type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="SAVINGS">Savings</SelectItem>
-                            <SelectItem value="CHECKING">Checking</SelectItem>
+                            <SelectItem value="SAVINGS">Savings Account</SelectItem>
+                            <SelectItem value="CHECKING">Checking Account</SelectItem>
                             <SelectItem value="FIXED_DEPOSIT">Fixed Deposit</SelectItem>
                             <SelectItem value="RECURRING_DEPOSIT">Recurring Deposit</SelectItem>
                           </SelectContent>
@@ -147,11 +148,7 @@ export default function CreateAccount() {
                           Branch Name
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Main Branch"
-                            {...field}
-                            className="border-emerald-200 focus:ring-emerald-500"
-                          />
+                          <Input placeholder="Main Branch" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -170,13 +167,7 @@ export default function CreateAccount() {
                           Interest Rate (%)
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            placeholder="3.5"
-                            {...field}
-                            className="border-emerald-200 focus:ring-emerald-500"
-                          />
+                          <Input type="number" step="0.01" placeholder="Optional" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -184,20 +175,18 @@ export default function CreateAccount() {
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div
+                  variants={itemVariants}
+                  className="pt-4"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
+                    className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        Creating...
-                      </div>
-                    ) : (
-                      "Create Account"
-                    )}
+                    {isSubmitting ? "Submitting..." : "Submit Account Request"}
                   </Button>
                 </motion.div>
               </form>
@@ -208,4 +197,3 @@ export default function CreateAccount() {
     </motion.div>
   )
 }
-

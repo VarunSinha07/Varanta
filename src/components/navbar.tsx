@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import AnimatedLogo from "@/components/animated-logo"
 
 export default function Navbar() {
   // Start with isScrolled as false to match server-side rendering
@@ -41,16 +41,16 @@ export default function Navbar() {
 
   return (
     <header className={headerClass}>
-      <div className="container mx-auto flex items-center justify-between ">
-        <div className="flex-shrink-0 px-16">
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="flex-shrink-0 px-4">
           <Link href="/" className="flex items-center">
             <motion.div
-              className="relative h-20 w-35 flex items-center justify-center"
+              className="relative h-20 w-64 flex items-center justify-center"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
                 opacity: 1,
                 scale: 1,
-                y: [0, -7, 0],
+                y: [0, -5, 0],
               }}
               transition={{
                 y: {
@@ -66,9 +66,9 @@ export default function Navbar() {
                 className="absolute inset-0 rounded-full"
                 animate={{
                   boxShadow: [
-                    "0 0 0 0 rgba(79, 70, 229, 0.2)",
-                    "0 0 0 15px rgba(79, 70, 229, 0)",
-                    "0 0 0 0 rgba(79, 70, 229, 0)",
+                    "0 0 0 0 rgba(16, 185, 129, 0.2)",
+                    "0 0 0 15px rgba(16, 185, 129, 0)",
+                    "0 0 0 0 rgba(16, 185, 129, 0)",
                   ],
                 }}
                 transition={{
@@ -78,47 +78,8 @@ export default function Navbar() {
                 }}
               />
 
-              {/* Logo image with magical rotation */}
-              <motion.div
-                animate={{
-                  rotate: [0, 5, 0, -5, 0],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-                className="relative w-full h-full"
-              >
-                
-                <Image
-                  src="/VarDaanGrow-logo.png"
-                  alt="VarDaanGrow Logo"
-                  width={240}
-                  height={80}
-                  className="object-contain bg-transparent"
-                  priority
-                />
-
-                {/* Magical sparkle effect */}
-                <motion.div
-                  className="absolute top-0 left-0 w-full h-full"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: [0, 0.8, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatDelay: 1,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <div className="absolute top-0 right-0 w-3 h-3 bg-white rounded-full blur-[2px]" />
-                  <div className="absolute bottom-2 left-2 w-2 h-2 bg-white rounded-full blur-[2px]" />
-                  <div className="absolute top-1/2 left-1/2 w-2.5 h-2.5 bg-white rounded-full blur-[2px]" />
-                </motion.div>
-              </motion.div>
+              {/* Animated Logo Component */}
+              <AnimatedLogo className="w-full h-full" />
             </motion.div>
           </Link>
         </div>

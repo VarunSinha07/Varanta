@@ -30,7 +30,7 @@ const SignIn = () => {
       {
         email,
         password,
-        callbackURL: "/dashboard",
+        callbackURL: "/middleware",
       },
       {
         onRequest: () => {
@@ -39,7 +39,7 @@ const SignIn = () => {
           })
         },
         onSuccess: () => {
-          window.location.href = "/"
+          window.location.href = "/dashboard"
         },
         onError: async (ctx) => {
           if (ctx.error.status === 403) {

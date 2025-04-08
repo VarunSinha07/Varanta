@@ -42,6 +42,8 @@ export default function Accounts() {
       branchName: string
       balance: string
       status: "ACTIVE" | "INACTIVE" | "SUSPENDED"
+      approvalStatus: "PENDING" | "APPROVED" | "REJECTED"
+      pin: string | null
     }[]
   >([])
   const [loading, setLoading] = useState(true)
@@ -91,6 +93,49 @@ export default function Accounts() {
     fetchAccounts()
   }, [fetchAccounts])
 
+  // Function to set up PIN for an approved account
+  const setupPin = async (accountId: string) => {
+    const pin = prompt("Please enter a 4-digit PIN for this account:")
+    
+    if (!pin) return
+    
+    if (!/^\d{4}$/.test(pin)) {
+      toast({
+        title: "Invalid PIN",
+        description: "PIN must be exactly 4 digits",
+        variant: "destructive",
+      })
+      return
+    }
+    
+    try {
+      const response = await fetch(`/api/accounts/${accountId}/pin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pin }),
+      })
+      
+      if (response.ok) {
+        toast({
+          title: "PIN set successfully",
+          description: "Your account is now ready to use",
+        })
+        fetchAccounts()
+      } else {
+        const error = await response.json()
+        throw new Error(error.error || "Failed to set PIN")
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to set PIN",
+        variant: "destructive",
+      })
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50">
@@ -126,7 +171,7 @@ export default function Accounts() {
               className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
             >
               <Plus className="h-4 w-4" />
-              Open New Account
+              Request New Account
             </Button>
           </motion.div>
         </div>
@@ -156,7 +201,7 @@ export default function Accounts() {
                       onClick={() => router.push("/dashboard/accounts/create")}
                       className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
                     >
-                      Open Your First Account
+                      Request Your First Account
                     </Button>
                   </motion.div>
                 </motion.div>
@@ -182,6 +227,7 @@ export default function Accounts() {
                         <TableHead className="text-emerald-700">Branch</TableHead>
                         <TableHead className="text-emerald-700">Balance</TableHead>
                         <TableHead className="text-emerald-700">Status</TableHead>
+                        <TableHead className="text-emerald-700">Approval</TableHead>
                         <TableHead className="text-emerald-700">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -229,29 +275,67 @@ export default function Accounts() {
                               </span>
                             </TableCell>
                             <TableCell>
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                  account.approvalStatus === "APPROVED"
+                                    ? "bg-emerald-100 text-emerald-800"
+                                    : account.approvalStatus === "PENDING"
+                                      ? "bg-amber-100 text-amber-800"
+                                      : "bg-red-100 text-red-800"
+                                }`}
+                              >
+                                {account.approvalStatus}
+                              </span>
+                            </TableCell>
+                            <TableCell>
                               <div className="flex space-x-2 opacity-80 group-hover:opacity-100">
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => router.push(`/dashboard/accounts/${account.id}`)}
-                                    className="border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                                  >
-                                    View
-                                  </Button>
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      router.push(`/dashboard/transactions/create?accountId=${account.id}`)
-                                    }
-                                    className="border-blue-200 text-blue-700 hover:bg-blue-50"
-                                  >
-                                    Transaction
-                                  </Button>
-                                </motion.div>
+                                {account.approvalStatus === "APPROVED" && !account.pin && (
+                                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => setupPin(account.id)}
+                                      className="border-purple-200 text-purple-700 hover:bg-purple-50"
+                                    >
+                                      Set PIN
+                                    </Button>
+                                  </motion.div>
+                                )}
+                                
+                                {(account.approvalStatus === "APPROVED" && account.pin) && (
+                                  <>
+                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.push(`/dashboard/accounts/${account.id}`)}
+                                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                                      >
+                                        View
+                                      </Button>
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                          router.push(`/dashboard/transactions/create?accountId=${account.id}`)
+                                        }
+                                        className="border-blue-200 text-blue-700 hover:bg-blue-50"
+                                      >
+                                        Transaction
+                                      </Button>
+                                    </motion.div>
+                                  </>
+                                )}
+                                
+                                {account.approvalStatus === "PENDING" && (
+                                  <span className="text-sm text-amber-600 italic">Awaiting approval</span>
+                                )}
+                                
+                                {account.approvalStatus === "REJECTED" && (
+                                  <span className="text-sm text-red-600 italic">Application rejected</span>
+                                )}
                               </div>
                             </TableCell>
                           </motion.tr>
@@ -265,6 +349,81 @@ export default function Accounts() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Pending accounts section */}
+      {accounts.some(account => account.approvalStatus === "PENDING") && (
+        <motion.div 
+          className="mt-8" 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="overflow-hidden border-none shadow-lg bg-gradient-to-br from-amber-50 to-yellow-50">
+            <CardHeader className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white">
+              <CardTitle className="flex items-center">
+                <RefreshCw className="mr-2 h-5 w-5" />
+                Pending Account Requests
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <p className="text-gray-700 mb-4">
+                Your account request is being reviewed by our team. This process typically takes 1-2 business days.
+                You will receive a notification once your account is approved.
+              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-amber-700">
+                  <span className="font-medium">Note:</span> You will need to set up a PIN once your account is approved.
+                </p>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={fetchAccounts}
+                    variant="outline"
+                    className="flex items-center gap-2 border-amber-200 text-amber-700 hover:bg-amber-50"
+                  >
+                    <RefreshCw className="h-4 w-4" />
+                    Check Status
+                  </Button>
+                </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+      
+      {/* Rejected accounts section */}
+      {accounts.some(account => account.approvalStatus === "REJECTED") && (
+        <motion.div 
+          className="mt-8" 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="overflow-hidden border-none shadow-lg bg-gradient-to-br from-red-50 to-pink-50">
+            <CardHeader className="bg-gradient-to-r from-red-500 to-pink-600 text-white">
+              <CardTitle className="flex items-center">
+                <CreditCard className="mr-2 h-5 w-5" />
+                Rejected Account Requests
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <p className="text-gray-700 mb-4">
+                One or more of your account requests have been rejected. This could be due to incomplete information
+                or verification issues. Please contact customer support for more details.
+              </p>
+              <div className="flex justify-end">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={() => router.push("/dashboard/support")}
+                    className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white"
+                  >
+                    Contact Support
+                  </Button>
+                </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
     </motion.div>
   )
 }
