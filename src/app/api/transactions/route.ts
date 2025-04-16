@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Session } from "@/lib/session";
-import { TransactionType } from "@prisma/client";
+
+
+
+const TransactionType = {
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL',
+  TRANSFER: 'TRANSFER',
+  PAYMENT: 'PAYMENT',
+  REFUND: 'REFUND'
+} as const;
+
+type TransactionType = typeof TransactionType[keyof typeof TransactionType];
 
 export async function GET() {
   try {
