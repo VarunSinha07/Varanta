@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { Session } from "@/lib/session";
 import prisma from "@/lib/prisma"
-
+import { Decimal } from "@prisma/client/runtime/library";
 export async function GET() {
   try {
     const session = await Session();
@@ -55,7 +55,7 @@ export async function GET() {
     })
 
     const totalBalance = accounts.reduce(
-      (sum: number, account) => sum + parseFloat(account.balance.toString()),
+      (sum: number, account: { balance: bigint | number | Decimal }) => sum + parseFloat(account.balance.toString()),
       0
     )
 
