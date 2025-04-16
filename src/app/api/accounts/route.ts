@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Session } from "@/lib/session";
-import { AccountType } from "@prisma/client";
+
+type AccountType = 'SAVINGS' | 'CHECKING' | 'FIXED_DEPOSIT' | 'LOAN';
 
 export async function GET() {
   try {
