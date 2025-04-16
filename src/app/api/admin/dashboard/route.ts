@@ -55,7 +55,7 @@ export async function GET() {
     })
 
     const totalBalance = accounts.reduce(
-      (sum, account) => sum + parseFloat(account.balance.toString()),
+      (sum: number, account) => sum + parseFloat(account.balance.toString()),
       0
     )
 
