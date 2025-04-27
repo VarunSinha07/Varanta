@@ -7,6 +7,5 @@ export async function Session() {
     headers: await headers(), // you need to pass the headers object.
   });
 
-
   return session;
 }
