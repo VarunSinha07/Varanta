@@ -1,0 +1,231 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  email         String    @unique
+  name          String
+  role          String    @default("user")
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  customer      Customer?
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Customer {
+  id               Int               @id @default(autoincrement())
+  userId           String            @unique
+  name             String
+  dob              DateTime
+  phone            String
+  address          String
+  panNumber        String?           @unique
+  aadharNumber     String?           @unique
+  approvalStatus   ApprovalStatus    @default(PENDING)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  bankAccounts     BankAccount[]
+  transactions     Transaction[]
+  loans            Loan[]
+  cards            Card[]
+  LoanApplications LoanApplication[]
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("customer")
+}
+
+model BankAccount {
+  id                   Int            @id @default(autoincrement())
+  customer             Customer       @relation(fields: [customerId], references: [id])
+  accountNumber        String         @unique
+  customerId           Int
+  accountType          AccountType
+  balance              Decimal        @default(0)
+  interestRate         Decimal?
+  status               AccountStatus  @default(ACTIVE)
+  branchName           String
+  pin                  String? // 4-digit PIN (hashed)
+  approvalStatus       ApprovalStatus @default(PENDING)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  transactions         Transaction[]
+  receivedTransactions Transaction[]  @relation("ReceiverTransactions")
+
+  @@map("bank_account")
+}
+
+model Transaction {
+  id                Int               @id @default(autoincrement())
+  transactionId     String            @unique @default(cuid())
+  amount            Decimal
+  transactionType   TransactionType
+  date              DateTime          @default(now())
+  customerId        Int
+  customer          Customer          @relation(fields: [customerId], references: [id])
+  accountId         Int?
+  account           BankAccount?      @relation(fields: [accountId], references: [id])
+  receiverAccountId Int?
+  receiverAccount   BankAccount?      @relation("ReceiverTransactions", fields: [receiverAccountId], references: [id])
+  reason            String?
+  description       String?
+  status            TransactionStatus @default(COMPLETED)
+
+  @@map("transaction")
+}
+
+model Loan {
+  id           Int        @id @default(autoincrement())
+  loanId       String     @unique @default(cuid())
+  customerId   Int
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  amount       Decimal
+  interestRate Decimal
+  duration     Int // in months
+  startDate    DateTime   @default(now())
+  endDate      DateTime
+  status       LoanStatus @default(PENDING)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("loan")
+}
+
+model LoanApplication {
+  id             Int            @id @default(autoincrement())
+  loanId         String         @unique @default(cuid())
+  customerId     Int
+  customer       Customer       @relation(fields: [customerId], references: [id])
+  amount         Decimal
+  interestRate   Decimal
+  duration       Int // in months
+  purpose        String
+  approvalStatus ApprovalStatus @default(PENDING)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@map("loan_application")
+}
+
+model Card {
+  id         Int      @id @default(autoincrement())
+  cardId     String   @unique @default(cuid())
+  cardNumber String   @unique
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+  cardType   CardType
+  expiryDate DateTime
+  cvv        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("card")
+}
+
+enum AccountType {
+  SAVINGS
+  CHECKING
+  FIXED_DEPOSIT
+  RECURRING_DEPOSIT
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+  FROZEN
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REVERSED
+}
+
+enum LoanStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ACTIVE
+  CLOSED
+  DEFAULTED
+}
+
+enum CardType {
+  DEBIT
+  CREDIT
+  PREPAID
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
