@@ -17,12 +17,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.5.0
- * Query Engine version: 173f8d54f8d52e692c7e27e72a88314ec7aeff60
+ * Prisma Client JS version: 6.6.0
+ * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
  */
 Prisma.prismaVersion = {
-  client: "6.5.0",
-  engine: "173f8d54f8d52e692c7e27e72a88314ec7aeff60"
+  client: "6.6.0",
+  engine: "f676762280b54cd07c770017ed3711ddde35f37a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -211,12 +211,15 @@ exports.Prisma.LoanScalarFieldEnum = {
   id: 'id',
   loanId: 'loanId',
   customerId: 'customerId',
+  accountId: 'accountId',
   amount: 'amount',
   interestRate: 'interestRate',
   duration: 'duration',
   startDate: 'startDate',
   endDate: 'endDate',
+  purpose: 'purpose',
   status: 'status',
+  approvalStatus: 'approvalStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -225,6 +228,7 @@ exports.Prisma.LoanApplicationScalarFieldEnum = {
   id: 'id',
   loanId: 'loanId',
   customerId: 'customerId',
+  accountId: 'accountId',
   amount: 'amount',
   interestRate: 'interestRate',
   duration: 'duration',
@@ -242,6 +246,18 @@ exports.Prisma.CardScalarFieldEnum = {
   cardType: 'cardType',
   expiryDate: 'expiryDate',
   cvv: 'cvv',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StatementRequestScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  accountId: 'accountId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  format: 'format',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -320,7 +336,8 @@ exports.Prisma.ModelName = {
   Transaction: 'Transaction',
   Loan: 'Loan',
   LoanApplication: 'LoanApplication',
-  Card: 'Card'
+  Card: 'Card',
+  StatementRequest: 'StatementRequest'
 };
 
 /**
@@ -340,7 +357,7 @@ class PrismaClient {
         } else {
           message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
         }
-        
+
         message += `
 If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
 

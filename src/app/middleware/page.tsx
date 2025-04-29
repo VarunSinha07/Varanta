@@ -15,11 +15,13 @@ const Page = async () => {
     return null;
   }
 
+  // Make role check case-insensitive
+  const role = user.role.toLowerCase();
   
-  if (user.role === 'admin') {
+  if (role === 'admin') {
     redirect('/admin');
   }
-  if(user.role === 'user') {
+  if (role === 'user') {
     redirect('/dashboard');
   }
 };

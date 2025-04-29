@@ -13,19 +13,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { DollarSign, CreditCard, ArrowUpDown, MessageSquare } from "lucide-react"
+import { DollarSign, CreditCard, MessageSquare, Send } from "lucide-react"
 
 const transactionFormSchema = z.object({
   accountId: z.string({
-    required_error: "Please select an account",
-  }),
-  transactionType: z.enum(["DEPOSIT", "WITHDRAW", "TRANSFER"], {
-    required_error: "Please select a transaction type",
+    required_error: "Please select your account",
   }),
   amount: z.string().refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
     message: "Amount must be a positive number",
   }),
-  receiverAccountId: z.string().optional(),
+  recipientAccountNumber: z.string().min(8, "Account number must be at least 8 digits"),
+  recipientAccountType: z.enum(["SAVINGS", "CHECKING", "CURRENT"], {
+    required_error: "Please select recipient account type",
+  }),
   pin: z.string().regex(/^\d{4}$/, "PIN must be exactly 4 digits"),
   reason: z.string().optional(),
 })
@@ -67,7 +67,6 @@ export default function CreateTransaction() {
       status: string
     }[]
   >([])
-  const [showReceiverField, setShowReceiverField] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
@@ -76,9 +75,9 @@ export default function CreateTransaction() {
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
       accountId: searchParams.get("accountId") || "",
-      transactionType: "DEPOSIT",
       amount: "",
-      receiverAccountId: "",
+      recipientAccountNumber: "",
+      recipientAccountType: "SAVINGS",
       pin: "",
       reason: "",
     },
@@ -90,11 +89,13 @@ export default function CreateTransaction() {
         const response = await fetch("/api/accounts")
         if (response.ok) {
           const data = await response.json()
-          // Filter only approved accounts with PIN set
-          const approvedAccounts = data.filter(
-            (account: { approvalStatus: string; pin: string | null }) => account.approvalStatus === "APPROVED" && account.pin !== null
+          
+          // Filter for active and approved accounts
+          const activeAccounts = data.filter(
+            (account: { status: string; approvalStatus: string }) => 
+              account.status === "ACTIVE" && account.approvalStatus === "APPROVED"
           )
-          setAccounts(approvedAccounts)
+          setAccounts(activeAccounts)
         } else {
           throw new Error("Failed to fetch accounts")
         }
@@ -111,41 +112,41 @@ export default function CreateTransaction() {
     fetchAccounts()
   }, [toast])
 
-  // Watch for transaction type changes to show/hide receiver field
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name === "transactionType") {
-        setShowReceiverField(value.transactionType === "TRANSFER")
-      }
-    })
-    return () => subscription.unsubscribe()
-  }, [form])
-
   async function onSubmit(data: TransactionFormValues) {
     setIsSubmitting(true)
     try {
+      // Prepare the data for the API
+      const transactionData = {
+        accountId: data.accountId,
+        amount: data.amount,
+        recipientAccountNumber: data.recipientAccountNumber,
+        recipientAccountType: data.recipientAccountType,
+        pin: data.pin,
+        reason: data.reason || "",
+      }
+
       const response = await fetch("/api/transactions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(transactionData),
       })
 
       if (response.ok) {
         toast({
-          title: "Transaction successful",
-          description: `Your ${data.transactionType.toLowerCase()} transaction has been processed`,
+          title: "Transfer successful",
+          description: "Your funds have been transferred successfully",
         })
         router.push("/dashboard/transactions")
       } else {
-        const error = await response.json()
-        throw new Error(error.error || `Failed to process ${data.transactionType.toLowerCase()} transaction`)
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to process transfer")
       }
     } catch (error: unknown) {
       toast({
-        title: "Transaction failed",
-        description: error instanceof Error ? error.message : "Failed to process transaction",
+        title: "Transfer failed",
+        description: error instanceof Error ? error.message : "Failed to process transfer",
         variant: "destructive",
       })
     } finally {
@@ -159,14 +160,14 @@ export default function CreateTransaction() {
         <Card className="max-w-md mx-auto overflow-hidden border-none shadow-lg">
           <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
             <CardTitle className="flex items-center">
-              <DollarSign className="mr-2 h-5 w-5" />
-              Create Transaction
+              <Send className="mr-2 h-5 w-5" />
+              Transfer Funds
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 pt-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <motion.div variants={itemVariants}>
+              <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
                     name="accountId"
@@ -174,20 +175,26 @@ export default function CreateTransaction() {
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
                           <CreditCard className="mr-2 h-4 w-4" />
-                          Select Account
+                          Your Account
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select an account" />
+                              <SelectValue placeholder="Select your account" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {accounts.map((account) => (
-                              <SelectItem key={account.id} value={account.id}>
-                                {account.accountNumber} ({account.accountType}) - ${parseFloat(account.balance).toFixed(2)}
+                            {accounts && accounts.length > 0 ? (
+                              accounts.map((account) => (
+                                <SelectItem key={account.id} value={account.id.toString()}>
+                                  {account.accountNumber} ({account.accountType}) - ₹{parseFloat(account.balance).toFixed(2)}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem value="no-accounts" disabled>
+                                No eligible accounts found
                               </SelectItem>
-                            ))}
+                            )}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -199,23 +206,42 @@ export default function CreateTransaction() {
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
-                    name="transactionType"
+                    name="recipientAccountNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
-                          <ArrowUpDown className="mr-2 h-4 w-4" />
-                          Transaction Type
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          Recipient Account Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter recipient's account number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="recipientAccountType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-blue-700">
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          Recipient Account Type
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select transaction type" />
+                              <SelectValue placeholder="Select recipient account type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="DEPOSIT">Deposit</SelectItem>
-                            <SelectItem value="WITHDRAW">Withdraw</SelectItem>
-                            <SelectItem value="TRANSFER">Transfer</SelectItem>
+                            <SelectItem value="SAVINGS">Savings</SelectItem>
+                            <SelectItem value="CHECKING">Checking</SelectItem>
+                            <SelectItem value="CURRENT">Current</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -232,7 +258,7 @@ export default function CreateTransaction() {
                       <FormItem>
                         <FormLabel className="flex items-center text-blue-700">
                           <DollarSign className="mr-2 h-4 w-4" />
-                          Amount
+                          Amount (₹)
                         </FormLabel>
                         <FormControl>
                           <Input type="number" step="0.01" placeholder="0.00" {...field} />
@@ -242,45 +268,6 @@ export default function CreateTransaction() {
                     )}
                   />
                 </motion.div>
-
-                {showReceiverField && (
-                  <motion.div
-                    variants={itemVariants}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                  >
-                    <FormField
-                      control={form.control}
-                      name="receiverAccountId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center text-blue-700">
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            Recipient Account
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select recipient account" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {accounts
-                                .filter((account) => account.id !== form.getValues("accountId"))
-                                .map((account) => (
-                                  <SelectItem key={account.id} value={account.id}>
-                                    {account.accountNumber} ({account.accountType})
-                                  </SelectItem>
-                                ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </motion.div>
-                )}
 
                 <motion.div variants={itemVariants}>
                   <FormField
@@ -293,7 +280,7 @@ export default function CreateTransaction() {
                           Reason (Optional)
                         </FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Enter reason for transaction" {...field} />
+                          <Textarea placeholder="Enter reason for transfer" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -331,7 +318,7 @@ export default function CreateTransaction() {
                     className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Processing..." : "Submit Transaction"}
+                    {isSubmitting ? "Processing..." : "Transfer Funds"}
                   </Button>
                 </motion.div>
               </form>
@@ -342,5 +329,3 @@ export default function CreateTransaction() {
     </motion.div>
   )
 }
-      
-    

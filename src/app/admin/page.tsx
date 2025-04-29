@@ -45,10 +45,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchDashboardData() {
       try {
-        const response = await fetch("/api/admin/dashboard")
+        const response = await fetch("/api/dashboard") // Changed from "/api/admin/dashboard"
         if (response.ok) {
           const data = await response.json()
-          setStats(data)
+          console.log("Dashboard data:", data)
+          setStats(data.stats) // Access the stats object from the response
         } else {
           throw new Error("Failed to fetch dashboard data")
         }
@@ -66,7 +67,6 @@ export default function AdminDashboard() {
 
     fetchDashboardData()
   }, [toast])
-
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">{stats.totalCustomers}</div>
+                <div className="text-2xl font-bold">{stats.totalCustomers || 0}</div>
                 <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
                   <Users className="h-5 w-5" />
                 </div>
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">{stats.totalAccounts}</div>
+                <div className="text-2xl font-bold">{stats.totalAccounts || 0}</div>
                 <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                   <CreditCard className="h-5 w-5" />
                 </div>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">{stats.totalTransactions}</div>
+                <div className="text-2xl font-bold">{stats.totalTransactions || 0}</div>
                 <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
                   <DollarSign className="h-5 w-5" />
                 </div>
@@ -183,7 +183,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">{stats.pendingApprovals}</div>
+                <div className="text-2xl font-bold">{stats.pendingApprovals || 0}</div>
                 <div className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
                   <FileCheck className="h-5 w-5" />
                 </div>
@@ -205,7 +205,9 @@ export default function AdminDashboard() {
               <CardTitle>Total Balance</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-600">${stats.totalBalance.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-blue-600">
+                ₹{(stats.totalBalance || 0).toLocaleString()}
+              </div>
               <div className="h-64 mt-4 bg-gray-100 rounded-lg flex items-center justify-center">
                 <p className="text-gray-500">Balance chart will be displayed here</p>
               </div>

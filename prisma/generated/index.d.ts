@@ -63,6 +63,11 @@ export type LoanApplication = $Result.DefaultSelection<Prisma.$LoanApplicationPa
  * 
  */
 export type Card = $Result.DefaultSelection<Prisma.$CardPayload>
+/**
+ * Model StatementRequest
+ * 
+ */
+export type StatementRequest = $Result.DefaultSelection<Prisma.$StatementRequestPayload>
 
 /**
  * Enums
@@ -392,6 +397,16 @@ export class PrismaClient<
     * ```
     */
   get card(): Prisma.CardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.statementRequest`: Exposes CRUD operations for the **StatementRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StatementRequests
+    * const statementRequests = await prisma.statementRequest.findMany()
+    * ```
+    */
+  get statementRequest(): Prisma.StatementRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -450,8 +465,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.5.0
-   * Query Engine version: 173f8d54f8d52e692c7e27e72a88314ec7aeff60
+   * Prisma Client JS version: 6.6.0
+   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
    */
   export type PrismaVersion = {
     client: string
@@ -841,7 +856,8 @@ export namespace Prisma {
     Transaction: 'Transaction',
     Loan: 'Loan',
     LoanApplication: 'LoanApplication',
-    Card: 'Card'
+    Card: 'Card',
+    StatementRequest: 'StatementRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -860,7 +876,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "customer" | "bankAccount" | "transaction" | "loan" | "loanApplication" | "card"
+      modelProps: "user" | "session" | "account" | "verification" | "customer" | "bankAccount" | "transaction" | "loan" | "loanApplication" | "card" | "statementRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1604,6 +1620,80 @@ export namespace Prisma {
           }
         }
       }
+      StatementRequest: {
+        payload: Prisma.$StatementRequestPayload<ExtArgs>
+        fields: Prisma.StatementRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StatementRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StatementRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.StatementRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StatementRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          findMany: {
+            args: Prisma.StatementRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>[]
+          }
+          create: {
+            args: Prisma.StatementRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          createMany: {
+            args: Prisma.StatementRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StatementRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.StatementRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          update: {
+            args: Prisma.StatementRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.StatementRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StatementRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StatementRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.StatementRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatementRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.StatementRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStatementRequest>
+          }
+          groupBy: {
+            args: Prisma.StatementRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StatementRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StatementRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<StatementRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1698,6 +1788,7 @@ export namespace Prisma {
     loan?: LoanOmit
     loanApplication?: LoanApplicationOmit
     card?: CardOmit
+    statementRequest?: StatementRequestOmit
   }
 
   /* Types for Logging */
@@ -1836,7 +1927,8 @@ export namespace Prisma {
     transactions: number
     loans: number
     cards: number
-    LoanApplications: number
+    loanApplications: number
+    statementRequests: number
   }
 
   export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1844,7 +1936,8 @@ export namespace Prisma {
     transactions?: boolean | CustomerCountOutputTypeCountTransactionsArgs
     loans?: boolean | CustomerCountOutputTypeCountLoansArgs
     cards?: boolean | CustomerCountOutputTypeCountCardsArgs
-    LoanApplications?: boolean | CustomerCountOutputTypeCountLoanApplicationsArgs
+    loanApplications?: boolean | CustomerCountOutputTypeCountLoanApplicationsArgs
+    statementRequests?: boolean | CustomerCountOutputTypeCountStatementRequestsArgs
   }
 
   // Custom InputTypes
@@ -1893,6 +1986,13 @@ export namespace Prisma {
     where?: LoanApplicationWhereInput
   }
 
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountStatementRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatementRequestWhereInput
+  }
+
 
   /**
    * Count Type BankAccountCountOutputType
@@ -1900,12 +2000,18 @@ export namespace Prisma {
 
   export type BankAccountCountOutputType = {
     transactions: number
+    statementRequests: number
     receivedTransactions: number
+    loans: number
+    loanApplications: number
   }
 
   export type BankAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transactions?: boolean | BankAccountCountOutputTypeCountTransactionsArgs
+    statementRequests?: boolean | BankAccountCountOutputTypeCountStatementRequestsArgs
     receivedTransactions?: boolean | BankAccountCountOutputTypeCountReceivedTransactionsArgs
+    loans?: boolean | BankAccountCountOutputTypeCountLoansArgs
+    loanApplications?: boolean | BankAccountCountOutputTypeCountLoanApplicationsArgs
   }
 
   // Custom InputTypes
@@ -1929,8 +2035,29 @@ export namespace Prisma {
   /**
    * BankAccountCountOutputType without action
    */
+  export type BankAccountCountOutputTypeCountStatementRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatementRequestWhereInput
+  }
+
+  /**
+   * BankAccountCountOutputType without action
+   */
   export type BankAccountCountOutputTypeCountReceivedTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
+  }
+
+  /**
+   * BankAccountCountOutputType without action
+   */
+  export type BankAccountCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanWhereInput
+  }
+
+  /**
+   * BankAccountCountOutputType without action
+   */
+  export type BankAccountCountOutputTypeCountLoanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApplicationWhereInput
   }
 
 
@@ -2615,7 +2742,7 @@ export namespace Prisma {
 
   /**
    * Fields of the User model
-   */ 
+   */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
@@ -3771,7 +3898,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Session model
-   */ 
+   */
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
     readonly expiresAt: FieldRef<"Session", 'DateTime'>
@@ -4928,7 +5055,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Account model
-   */ 
+   */
   interface AccountFieldRefs {
     readonly id: FieldRef<"Account", 'String'>
     readonly accountId: FieldRef<"Account", 'String'>
@@ -5991,7 +6118,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Verification model
-   */ 
+   */
   interface VerificationFieldRefs {
     readonly id: FieldRef<"Verification", 'String'>
     readonly identifier: FieldRef<"Verification", 'String'>
@@ -6615,7 +6742,8 @@ export namespace Prisma {
     transactions?: boolean | Customer$transactionsArgs<ExtArgs>
     loans?: boolean | Customer$loansArgs<ExtArgs>
     cards?: boolean | Customer$cardsArgs<ExtArgs>
-    LoanApplications?: boolean | Customer$LoanApplicationsArgs<ExtArgs>
+    loanApplications?: boolean | Customer$loanApplicationsArgs<ExtArgs>
+    statementRequests?: boolean | Customer$statementRequestsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customer"]>
@@ -6670,7 +6798,8 @@ export namespace Prisma {
     transactions?: boolean | Customer$transactionsArgs<ExtArgs>
     loans?: boolean | Customer$loansArgs<ExtArgs>
     cards?: boolean | Customer$cardsArgs<ExtArgs>
-    LoanApplications?: boolean | Customer$LoanApplicationsArgs<ExtArgs>
+    loanApplications?: boolean | Customer$loanApplicationsArgs<ExtArgs>
+    statementRequests?: boolean | Customer$statementRequestsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -6688,7 +6817,8 @@ export namespace Prisma {
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
       loans: Prisma.$LoanPayload<ExtArgs>[]
       cards: Prisma.$CardPayload<ExtArgs>[]
-      LoanApplications: Prisma.$LoanApplicationPayload<ExtArgs>[]
+      loanApplications: Prisma.$LoanApplicationPayload<ExtArgs>[]
+      statementRequests: Prisma.$StatementRequestPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -7101,7 +7231,8 @@ export namespace Prisma {
     transactions<T extends Customer$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loans<T extends Customer$loansArgs<ExtArgs> = {}>(args?: Subset<T, Customer$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cards<T extends Customer$cardsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    LoanApplications<T extends Customer$LoanApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$LoanApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loanApplications<T extends Customer$loanApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$loanApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    statementRequests<T extends Customer$statementRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$statementRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7130,7 +7261,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Customer model
-   */ 
+   */
   interface CustomerFieldRefs {
     readonly id: FieldRef<"Customer", 'Int'>
     readonly userId: FieldRef<"Customer", 'String'>
@@ -7635,9 +7766,9 @@ export namespace Prisma {
   }
 
   /**
-   * Customer.LoanApplications
+   * Customer.loanApplications
    */
-  export type Customer$LoanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Customer$loanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the LoanApplication
      */
@@ -7656,6 +7787,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * Customer.statementRequests
+   */
+  export type Customer$statementRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    where?: StatementRequestWhereInput
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    cursor?: StatementRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StatementRequestScalarFieldEnum | StatementRequestScalarFieldEnum[]
   }
 
   /**
@@ -7945,7 +8100,10 @@ export namespace Prisma {
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
+    statementRequests?: boolean | BankAccount$statementRequestsArgs<ExtArgs>
     receivedTransactions?: boolean | BankAccount$receivedTransactionsArgs<ExtArgs>
+    loans?: boolean | BankAccount$loansArgs<ExtArgs>
+    loanApplications?: boolean | BankAccount$loanApplicationsArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
@@ -8000,7 +8158,10 @@ export namespace Prisma {
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
+    statementRequests?: boolean | BankAccount$statementRequestsArgs<ExtArgs>
     receivedTransactions?: boolean | BankAccount$receivedTransactionsArgs<ExtArgs>
+    loans?: boolean | BankAccount$loansArgs<ExtArgs>
+    loanApplications?: boolean | BankAccount$loanApplicationsArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BankAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8015,7 +8176,10 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
+      statementRequests: Prisma.$StatementRequestPayload<ExtArgs>[]
       receivedTransactions: Prisma.$TransactionPayload<ExtArgs>[]
+      loans: Prisma.$LoanPayload<ExtArgs>[]
+      loanApplications: Prisma.$LoanApplicationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -8426,7 +8590,10 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     transactions<T extends BankAccount$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    statementRequests<T extends BankAccount$statementRequestsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$statementRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivedTransactions<T extends BankAccount$receivedTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$receivedTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loans<T extends BankAccount$loansArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loanApplications<T extends BankAccount$loanApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$loanApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8454,7 +8621,7 @@ export namespace Prisma {
 
   /**
    * Fields of the BankAccount model
-   */ 
+   */
   interface BankAccountFieldRefs {
     readonly id: FieldRef<"BankAccount", 'Int'>
     readonly accountNumber: FieldRef<"BankAccount", 'String'>
@@ -8888,6 +9055,30 @@ export namespace Prisma {
   }
 
   /**
+   * BankAccount.statementRequests
+   */
+  export type BankAccount$statementRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    where?: StatementRequestWhereInput
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    cursor?: StatementRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StatementRequestScalarFieldEnum | StatementRequestScalarFieldEnum[]
+  }
+
+  /**
    * BankAccount.receivedTransactions
    */
   export type BankAccount$receivedTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8909,6 +9100,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * BankAccount.loans
+   */
+  export type BankAccount$loansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    where?: LoanWhereInput
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    cursor?: LoanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * BankAccount.loanApplications
+   */
+  export type BankAccount$loanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    where?: LoanApplicationWhereInput
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    cursor?: LoanApplicationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
   }
 
   /**
@@ -9705,7 +9944,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Transaction model
-   */ 
+   */
   interface TransactionFieldRefs {
     readonly id: FieldRef<"Transaction", 'Int'>
     readonly transactionId: FieldRef<"Transaction", 'String'>
@@ -10185,6 +10424,7 @@ export namespace Prisma {
   export type LoanAvgAggregateOutputType = {
     id: number | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -10193,6 +10433,7 @@ export namespace Prisma {
   export type LoanSumAggregateOutputType = {
     id: number | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -10202,12 +10443,15 @@ export namespace Prisma {
     id: number | null
     loanId: string | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
     startDate: Date | null
     endDate: Date | null
+    purpose: string | null
     status: $Enums.LoanStatus | null
+    approvalStatus: $Enums.ApprovalStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10216,12 +10460,15 @@ export namespace Prisma {
     id: number | null
     loanId: string | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
     startDate: Date | null
     endDate: Date | null
+    purpose: string | null
     status: $Enums.LoanStatus | null
+    approvalStatus: $Enums.ApprovalStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10230,12 +10477,15 @@ export namespace Prisma {
     id: number
     loanId: number
     customerId: number
+    accountId: number
     amount: number
     interestRate: number
     duration: number
     startDate: number
     endDate: number
+    purpose: number
     status: number
+    approvalStatus: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -10245,6 +10495,7 @@ export namespace Prisma {
   export type LoanAvgAggregateInputType = {
     id?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -10253,6 +10504,7 @@ export namespace Prisma {
   export type LoanSumAggregateInputType = {
     id?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -10262,12 +10514,15 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
     startDate?: true
     endDate?: true
+    purpose?: true
     status?: true
+    approvalStatus?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10276,12 +10531,15 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
     startDate?: true
     endDate?: true
+    purpose?: true
     status?: true
+    approvalStatus?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10290,12 +10548,15 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
     startDate?: true
     endDate?: true
+    purpose?: true
     status?: true
+    approvalStatus?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10391,12 +10652,15 @@ export namespace Prisma {
     id: number
     loanId: string
     customerId: number
+    accountId: number | null
     amount: Decimal
     interestRate: Decimal
     duration: number
     startDate: Date
     endDate: Date
+    purpose: string | null
     status: $Enums.LoanStatus
+    approvalStatus: $Enums.ApprovalStatus
     createdAt: Date
     updatedAt: Date
     _count: LoanCountAggregateOutputType | null
@@ -10424,87 +10688,109 @@ export namespace Prisma {
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
+    purpose?: boolean
     status?: boolean
+    approvalStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
   export type LoanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
+    purpose?: boolean
     status?: boolean
+    approvalStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
   export type LoanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
+    purpose?: boolean
     status?: boolean
+    approvalStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
   export type LoanSelectScalar = {
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
+    purpose?: boolean
     status?: boolean
+    approvalStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "loanId" | "customerId" | "amount" | "interestRate" | "duration" | "startDate" | "endDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
+  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "loanId" | "customerId" | "accountId" | "amount" | "interestRate" | "duration" | "startDate" | "endDate" | "purpose" | "status" | "approvalStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
   export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }
   export type LoanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }
   export type LoanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | Loan$accountArgs<ExtArgs>
   }
 
   export type $LoanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Loan"
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
+      account: Prisma.$BankAccountPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       loanId: string
       customerId: number
+      accountId: number | null
       amount: Prisma.Decimal
       interestRate: Prisma.Decimal
       duration: number
       startDate: Date
       endDate: Date
+      purpose: string | null
       status: $Enums.LoanStatus
+      approvalStatus: $Enums.ApprovalStatus
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["loan"]>
@@ -10902,6 +11188,7 @@ export namespace Prisma {
   export interface Prisma__LoanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends Loan$accountArgs<ExtArgs> = {}>(args?: Subset<T, Loan$accountArgs<ExtArgs>>): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10929,17 +11216,20 @@ export namespace Prisma {
 
   /**
    * Fields of the Loan model
-   */ 
+   */
   interface LoanFieldRefs {
     readonly id: FieldRef<"Loan", 'Int'>
     readonly loanId: FieldRef<"Loan", 'String'>
     readonly customerId: FieldRef<"Loan", 'Int'>
+    readonly accountId: FieldRef<"Loan", 'Int'>
     readonly amount: FieldRef<"Loan", 'Decimal'>
     readonly interestRate: FieldRef<"Loan", 'Decimal'>
     readonly duration: FieldRef<"Loan", 'Int'>
     readonly startDate: FieldRef<"Loan", 'DateTime'>
     readonly endDate: FieldRef<"Loan", 'DateTime'>
+    readonly purpose: FieldRef<"Loan", 'String'>
     readonly status: FieldRef<"Loan", 'LoanStatus'>
+    readonly approvalStatus: FieldRef<"Loan", 'ApprovalStatus'>
     readonly createdAt: FieldRef<"Loan", 'DateTime'>
     readonly updatedAt: FieldRef<"Loan", 'DateTime'>
   }
@@ -11338,6 +11628,25 @@ export namespace Prisma {
   }
 
   /**
+   * Loan.account
+   */
+  export type Loan$accountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankAccount
+     */
+    omit?: BankAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+  }
+
+  /**
    * Loan without action
    */
   export type LoanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11371,6 +11680,7 @@ export namespace Prisma {
   export type LoanApplicationAvgAggregateOutputType = {
     id: number | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -11379,6 +11689,7 @@ export namespace Prisma {
   export type LoanApplicationSumAggregateOutputType = {
     id: number | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -11388,6 +11699,7 @@ export namespace Prisma {
     id: number | null
     loanId: string | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -11401,6 +11713,7 @@ export namespace Prisma {
     id: number | null
     loanId: string | null
     customerId: number | null
+    accountId: number | null
     amount: Decimal | null
     interestRate: Decimal | null
     duration: number | null
@@ -11414,6 +11727,7 @@ export namespace Prisma {
     id: number
     loanId: number
     customerId: number
+    accountId: number
     amount: number
     interestRate: number
     duration: number
@@ -11428,6 +11742,7 @@ export namespace Prisma {
   export type LoanApplicationAvgAggregateInputType = {
     id?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -11436,6 +11751,7 @@ export namespace Prisma {
   export type LoanApplicationSumAggregateInputType = {
     id?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -11445,6 +11761,7 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -11458,6 +11775,7 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -11471,6 +11789,7 @@ export namespace Prisma {
     id?: true
     loanId?: true
     customerId?: true
+    accountId?: true
     amount?: true
     interestRate?: true
     duration?: true
@@ -11571,6 +11890,7 @@ export namespace Prisma {
     id: number
     loanId: string
     customerId: number
+    accountId: number
     amount: Decimal
     interestRate: Decimal
     duration: number
@@ -11603,6 +11923,7 @@ export namespace Prisma {
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
@@ -11611,12 +11932,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loanApplication"]>
 
   export type LoanApplicationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
@@ -11625,12 +11948,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loanApplication"]>
 
   export type LoanApplicationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
@@ -11639,12 +11964,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loanApplication"]>
 
   export type LoanApplicationSelectScalar = {
     id?: boolean
     loanId?: boolean
     customerId?: boolean
+    accountId?: boolean
     amount?: boolean
     interestRate?: boolean
     duration?: boolean
@@ -11654,26 +11981,31 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type LoanApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "loanId" | "customerId" | "amount" | "interestRate" | "duration" | "purpose" | "approvalStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["loanApplication"]>
+  export type LoanApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "loanId" | "customerId" | "accountId" | "amount" | "interestRate" | "duration" | "purpose" | "approvalStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["loanApplication"]>
   export type LoanApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }
   export type LoanApplicationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }
   export type LoanApplicationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
   }
 
   export type $LoanApplicationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LoanApplication"
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
+      account: Prisma.$BankAccountPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       loanId: string
       customerId: number
+      accountId: number
       amount: Prisma.Decimal
       interestRate: Prisma.Decimal
       duration: number
@@ -12076,6 +12408,7 @@ export namespace Prisma {
   export interface Prisma__LoanApplicationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends BankAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankAccountDefaultArgs<ExtArgs>>): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12103,11 +12436,12 @@ export namespace Prisma {
 
   /**
    * Fields of the LoanApplication model
-   */ 
+   */
   interface LoanApplicationFieldRefs {
     readonly id: FieldRef<"LoanApplication", 'Int'>
     readonly loanId: FieldRef<"LoanApplication", 'String'>
     readonly customerId: FieldRef<"LoanApplication", 'Int'>
+    readonly accountId: FieldRef<"LoanApplication", 'Int'>
     readonly amount: FieldRef<"LoanApplication", 'Decimal'>
     readonly interestRate: FieldRef<"LoanApplication", 'Decimal'>
     readonly duration: FieldRef<"LoanApplication", 'Int'>
@@ -13252,7 +13586,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Card model
-   */ 
+   */
   interface CardFieldRefs {
     readonly id: FieldRef<"Card", 'Int'>
     readonly cardId: FieldRef<"Card", 'String'>
@@ -13678,6 +14012,1166 @@ export namespace Prisma {
 
 
   /**
+   * Model StatementRequest
+   */
+
+  export type AggregateStatementRequest = {
+    _count: StatementRequestCountAggregateOutputType | null
+    _avg: StatementRequestAvgAggregateOutputType | null
+    _sum: StatementRequestSumAggregateOutputType | null
+    _min: StatementRequestMinAggregateOutputType | null
+    _max: StatementRequestMaxAggregateOutputType | null
+  }
+
+  export type StatementRequestAvgAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    accountId: number | null
+  }
+
+  export type StatementRequestSumAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    accountId: number | null
+  }
+
+  export type StatementRequestMinAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    accountId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    format: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatementRequestMaxAggregateOutputType = {
+    id: number | null
+    customerId: number | null
+    accountId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    format: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatementRequestCountAggregateOutputType = {
+    id: number
+    customerId: number
+    accountId: number
+    startDate: number
+    endDate: number
+    format: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StatementRequestAvgAggregateInputType = {
+    id?: true
+    customerId?: true
+    accountId?: true
+  }
+
+  export type StatementRequestSumAggregateInputType = {
+    id?: true
+    customerId?: true
+    accountId?: true
+  }
+
+  export type StatementRequestMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    accountId?: true
+    startDate?: true
+    endDate?: true
+    format?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatementRequestMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    accountId?: true
+    startDate?: true
+    endDate?: true
+    format?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatementRequestCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    accountId?: true
+    startDate?: true
+    endDate?: true
+    format?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StatementRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StatementRequest to aggregate.
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatementRequests to fetch.
+     */
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StatementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StatementRequests
+    **/
+    _count?: true | StatementRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StatementRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StatementRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StatementRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StatementRequestMaxAggregateInputType
+  }
+
+  export type GetStatementRequestAggregateType<T extends StatementRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateStatementRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStatementRequest[P]>
+      : GetScalarType<T[P], AggregateStatementRequest[P]>
+  }
+
+
+
+
+  export type StatementRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatementRequestWhereInput
+    orderBy?: StatementRequestOrderByWithAggregationInput | StatementRequestOrderByWithAggregationInput[]
+    by: StatementRequestScalarFieldEnum[] | StatementRequestScalarFieldEnum
+    having?: StatementRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StatementRequestCountAggregateInputType | true
+    _avg?: StatementRequestAvgAggregateInputType
+    _sum?: StatementRequestSumAggregateInputType
+    _min?: StatementRequestMinAggregateInputType
+    _max?: StatementRequestMaxAggregateInputType
+  }
+
+  export type StatementRequestGroupByOutputType = {
+    id: number
+    customerId: number
+    accountId: number
+    startDate: Date
+    endDate: Date
+    format: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StatementRequestCountAggregateOutputType | null
+    _avg: StatementRequestAvgAggregateOutputType | null
+    _sum: StatementRequestSumAggregateOutputType | null
+    _min: StatementRequestMinAggregateOutputType | null
+    _max: StatementRequestMaxAggregateOutputType | null
+  }
+
+  type GetStatementRequestGroupByPayload<T extends StatementRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StatementRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StatementRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StatementRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], StatementRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StatementRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    accountId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    format?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["statementRequest"]>
+
+  export type StatementRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    accountId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    format?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["statementRequest"]>
+
+  export type StatementRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    accountId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    format?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["statementRequest"]>
+
+  export type StatementRequestSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    accountId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    format?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StatementRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "accountId" | "startDate" | "endDate" | "format" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["statementRequest"]>
+  export type StatementRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }
+  export type StatementRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }
+  export type StatementRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    account?: boolean | BankAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $StatementRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StatementRequest"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+      account: Prisma.$BankAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      customerId: number
+      accountId: number
+      startDate: Date
+      endDate: Date
+      format: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["statementRequest"]>
+    composites: {}
+  }
+
+  type StatementRequestGetPayload<S extends boolean | null | undefined | StatementRequestDefaultArgs> = $Result.GetResult<Prisma.$StatementRequestPayload, S>
+
+  type StatementRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StatementRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StatementRequestCountAggregateInputType | true
+    }
+
+  export interface StatementRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StatementRequest'], meta: { name: 'StatementRequest' } }
+    /**
+     * Find zero or one StatementRequest that matches the filter.
+     * @param {StatementRequestFindUniqueArgs} args - Arguments to find a StatementRequest
+     * @example
+     * // Get one StatementRequest
+     * const statementRequest = await prisma.statementRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StatementRequestFindUniqueArgs>(args: SelectSubset<T, StatementRequestFindUniqueArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StatementRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StatementRequestFindUniqueOrThrowArgs} args - Arguments to find a StatementRequest
+     * @example
+     * // Get one StatementRequest
+     * const statementRequest = await prisma.statementRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StatementRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, StatementRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StatementRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestFindFirstArgs} args - Arguments to find a StatementRequest
+     * @example
+     * // Get one StatementRequest
+     * const statementRequest = await prisma.statementRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StatementRequestFindFirstArgs>(args?: SelectSubset<T, StatementRequestFindFirstArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StatementRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestFindFirstOrThrowArgs} args - Arguments to find a StatementRequest
+     * @example
+     * // Get one StatementRequest
+     * const statementRequest = await prisma.statementRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StatementRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, StatementRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StatementRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StatementRequests
+     * const statementRequests = await prisma.statementRequest.findMany()
+     * 
+     * // Get first 10 StatementRequests
+     * const statementRequests = await prisma.statementRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const statementRequestWithIdOnly = await prisma.statementRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StatementRequestFindManyArgs>(args?: SelectSubset<T, StatementRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StatementRequest.
+     * @param {StatementRequestCreateArgs} args - Arguments to create a StatementRequest.
+     * @example
+     * // Create one StatementRequest
+     * const StatementRequest = await prisma.statementRequest.create({
+     *   data: {
+     *     // ... data to create a StatementRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends StatementRequestCreateArgs>(args: SelectSubset<T, StatementRequestCreateArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StatementRequests.
+     * @param {StatementRequestCreateManyArgs} args - Arguments to create many StatementRequests.
+     * @example
+     * // Create many StatementRequests
+     * const statementRequest = await prisma.statementRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StatementRequestCreateManyArgs>(args?: SelectSubset<T, StatementRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StatementRequests and returns the data saved in the database.
+     * @param {StatementRequestCreateManyAndReturnArgs} args - Arguments to create many StatementRequests.
+     * @example
+     * // Create many StatementRequests
+     * const statementRequest = await prisma.statementRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StatementRequests and only return the `id`
+     * const statementRequestWithIdOnly = await prisma.statementRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StatementRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, StatementRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StatementRequest.
+     * @param {StatementRequestDeleteArgs} args - Arguments to delete one StatementRequest.
+     * @example
+     * // Delete one StatementRequest
+     * const StatementRequest = await prisma.statementRequest.delete({
+     *   where: {
+     *     // ... filter to delete one StatementRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StatementRequestDeleteArgs>(args: SelectSubset<T, StatementRequestDeleteArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StatementRequest.
+     * @param {StatementRequestUpdateArgs} args - Arguments to update one StatementRequest.
+     * @example
+     * // Update one StatementRequest
+     * const statementRequest = await prisma.statementRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StatementRequestUpdateArgs>(args: SelectSubset<T, StatementRequestUpdateArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StatementRequests.
+     * @param {StatementRequestDeleteManyArgs} args - Arguments to filter StatementRequests to delete.
+     * @example
+     * // Delete a few StatementRequests
+     * const { count } = await prisma.statementRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StatementRequestDeleteManyArgs>(args?: SelectSubset<T, StatementRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StatementRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StatementRequests
+     * const statementRequest = await prisma.statementRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StatementRequestUpdateManyArgs>(args: SelectSubset<T, StatementRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StatementRequests and returns the data updated in the database.
+     * @param {StatementRequestUpdateManyAndReturnArgs} args - Arguments to update many StatementRequests.
+     * @example
+     * // Update many StatementRequests
+     * const statementRequest = await prisma.statementRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StatementRequests and only return the `id`
+     * const statementRequestWithIdOnly = await prisma.statementRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StatementRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, StatementRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StatementRequest.
+     * @param {StatementRequestUpsertArgs} args - Arguments to update or create a StatementRequest.
+     * @example
+     * // Update or create a StatementRequest
+     * const statementRequest = await prisma.statementRequest.upsert({
+     *   create: {
+     *     // ... data to create a StatementRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StatementRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StatementRequestUpsertArgs>(args: SelectSubset<T, StatementRequestUpsertArgs<ExtArgs>>): Prisma__StatementRequestClient<$Result.GetResult<Prisma.$StatementRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StatementRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestCountArgs} args - Arguments to filter StatementRequests to count.
+     * @example
+     * // Count the number of StatementRequests
+     * const count = await prisma.statementRequest.count({
+     *   where: {
+     *     // ... the filter for the StatementRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends StatementRequestCountArgs>(
+      args?: Subset<T, StatementRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StatementRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StatementRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StatementRequestAggregateArgs>(args: Subset<T, StatementRequestAggregateArgs>): Prisma.PrismaPromise<GetStatementRequestAggregateType<T>>
+
+    /**
+     * Group by StatementRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatementRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StatementRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StatementRequestGroupByArgs['orderBy'] }
+        : { orderBy?: StatementRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StatementRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStatementRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StatementRequest model
+   */
+  readonly fields: StatementRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StatementRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StatementRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends BankAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankAccountDefaultArgs<ExtArgs>>): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StatementRequest model
+   */
+  interface StatementRequestFieldRefs {
+    readonly id: FieldRef<"StatementRequest", 'Int'>
+    readonly customerId: FieldRef<"StatementRequest", 'Int'>
+    readonly accountId: FieldRef<"StatementRequest", 'Int'>
+    readonly startDate: FieldRef<"StatementRequest", 'DateTime'>
+    readonly endDate: FieldRef<"StatementRequest", 'DateTime'>
+    readonly format: FieldRef<"StatementRequest", 'String'>
+    readonly status: FieldRef<"StatementRequest", 'String'>
+    readonly createdAt: FieldRef<"StatementRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"StatementRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StatementRequest findUnique
+   */
+  export type StatementRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which StatementRequest to fetch.
+     */
+    where: StatementRequestWhereUniqueInput
+  }
+
+  /**
+   * StatementRequest findUniqueOrThrow
+   */
+  export type StatementRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which StatementRequest to fetch.
+     */
+    where: StatementRequestWhereUniqueInput
+  }
+
+  /**
+   * StatementRequest findFirst
+   */
+  export type StatementRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which StatementRequest to fetch.
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatementRequests to fetch.
+     */
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StatementRequests.
+     */
+    cursor?: StatementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StatementRequests.
+     */
+    distinct?: StatementRequestScalarFieldEnum | StatementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * StatementRequest findFirstOrThrow
+   */
+  export type StatementRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which StatementRequest to fetch.
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatementRequests to fetch.
+     */
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StatementRequests.
+     */
+    cursor?: StatementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StatementRequests.
+     */
+    distinct?: StatementRequestScalarFieldEnum | StatementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * StatementRequest findMany
+   */
+  export type StatementRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which StatementRequests to fetch.
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatementRequests to fetch.
+     */
+    orderBy?: StatementRequestOrderByWithRelationInput | StatementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StatementRequests.
+     */
+    cursor?: StatementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatementRequests.
+     */
+    skip?: number
+    distinct?: StatementRequestScalarFieldEnum | StatementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * StatementRequest create
+   */
+  export type StatementRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StatementRequest.
+     */
+    data: XOR<StatementRequestCreateInput, StatementRequestUncheckedCreateInput>
+  }
+
+  /**
+   * StatementRequest createMany
+   */
+  export type StatementRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StatementRequests.
+     */
+    data: StatementRequestCreateManyInput | StatementRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StatementRequest createManyAndReturn
+   */
+  export type StatementRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many StatementRequests.
+     */
+    data: StatementRequestCreateManyInput | StatementRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StatementRequest update
+   */
+  export type StatementRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StatementRequest.
+     */
+    data: XOR<StatementRequestUpdateInput, StatementRequestUncheckedUpdateInput>
+    /**
+     * Choose, which StatementRequest to update.
+     */
+    where: StatementRequestWhereUniqueInput
+  }
+
+  /**
+   * StatementRequest updateMany
+   */
+  export type StatementRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StatementRequests.
+     */
+    data: XOR<StatementRequestUpdateManyMutationInput, StatementRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which StatementRequests to update
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * Limit how many StatementRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StatementRequest updateManyAndReturn
+   */
+  export type StatementRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update StatementRequests.
+     */
+    data: XOR<StatementRequestUpdateManyMutationInput, StatementRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which StatementRequests to update
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * Limit how many StatementRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StatementRequest upsert
+   */
+  export type StatementRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StatementRequest to update in case it exists.
+     */
+    where: StatementRequestWhereUniqueInput
+    /**
+     * In case the StatementRequest found by the `where` argument doesn't exist, create a new StatementRequest with this data.
+     */
+    create: XOR<StatementRequestCreateInput, StatementRequestUncheckedCreateInput>
+    /**
+     * In case the StatementRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StatementRequestUpdateInput, StatementRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * StatementRequest delete
+   */
+  export type StatementRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+    /**
+     * Filter which StatementRequest to delete.
+     */
+    where: StatementRequestWhereUniqueInput
+  }
+
+  /**
+   * StatementRequest deleteMany
+   */
+  export type StatementRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StatementRequests to delete
+     */
+    where?: StatementRequestWhereInput
+    /**
+     * Limit how many StatementRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StatementRequest without action
+   */
+  export type StatementRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatementRequest
+     */
+    select?: StatementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatementRequest
+     */
+    omit?: StatementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StatementRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13806,12 +15300,15 @@ export namespace Prisma {
     id: 'id',
     loanId: 'loanId',
     customerId: 'customerId',
+    accountId: 'accountId',
     amount: 'amount',
     interestRate: 'interestRate',
     duration: 'duration',
     startDate: 'startDate',
     endDate: 'endDate',
+    purpose: 'purpose',
     status: 'status',
+    approvalStatus: 'approvalStatus',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13823,6 +15320,7 @@ export namespace Prisma {
     id: 'id',
     loanId: 'loanId',
     customerId: 'customerId',
+    accountId: 'accountId',
     amount: 'amount',
     interestRate: 'interestRate',
     duration: 'duration',
@@ -13850,6 +15348,21 @@ export namespace Prisma {
   export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
 
 
+  export const StatementRequestScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    accountId: 'accountId',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    format: 'format',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StatementRequestScalarFieldEnum = (typeof StatementRequestScalarFieldEnum)[keyof typeof StatementRequestScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13875,7 +15388,7 @@ export namespace Prisma {
 
 
   /**
-   * Field references 
+   * Field references
    */
 
 
@@ -14374,7 +15887,8 @@ export namespace Prisma {
     transactions?: TransactionListRelationFilter
     loans?: LoanListRelationFilter
     cards?: CardListRelationFilter
-    LoanApplications?: LoanApplicationListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
+    statementRequests?: StatementRequestListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -14394,7 +15908,8 @@ export namespace Prisma {
     transactions?: TransactionOrderByRelationAggregateInput
     loans?: LoanOrderByRelationAggregateInput
     cards?: CardOrderByRelationAggregateInput
-    LoanApplications?: LoanApplicationOrderByRelationAggregateInput
+    loanApplications?: LoanApplicationOrderByRelationAggregateInput
+    statementRequests?: StatementRequestOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -14417,7 +15932,8 @@ export namespace Prisma {
     transactions?: TransactionListRelationFilter
     loans?: LoanListRelationFilter
     cards?: CardListRelationFilter
-    LoanApplications?: LoanApplicationListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
+    statementRequests?: StatementRequestListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId" | "panNumber" | "aadharNumber">
 
@@ -14475,7 +15991,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     transactions?: TransactionListRelationFilter
+    statementRequests?: StatementRequestListRelationFilter
     receivedTransactions?: TransactionListRelationFilter
+    loans?: LoanListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
   }
 
   export type BankAccountOrderByWithRelationInput = {
@@ -14493,7 +16012,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
     transactions?: TransactionOrderByRelationAggregateInput
+    statementRequests?: StatementRequestOrderByRelationAggregateInput
     receivedTransactions?: TransactionOrderByRelationAggregateInput
+    loans?: LoanOrderByRelationAggregateInput
+    loanApplications?: LoanApplicationOrderByRelationAggregateInput
   }
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -14514,7 +16036,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     transactions?: TransactionListRelationFilter
+    statementRequests?: StatementRequestListRelationFilter
     receivedTransactions?: TransactionListRelationFilter
+    loans?: LoanListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
   }, "id" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
@@ -14655,30 +16180,38 @@ export namespace Prisma {
     id?: IntFilter<"Loan"> | number
     loanId?: StringFilter<"Loan"> | string
     customerId?: IntFilter<"Loan"> | number
+    accountId?: IntNullableFilter<"Loan"> | number | null
     amount?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"Loan"> | number
     startDate?: DateTimeFilter<"Loan"> | Date | string
     endDate?: DateTimeFilter<"Loan"> | Date | string
+    purpose?: StringNullableFilter<"Loan"> | string | null
     status?: EnumLoanStatusFilter<"Loan"> | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFilter<"Loan"> | $Enums.ApprovalStatus
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountNullableScalarRelationFilter, BankAccountWhereInput> | null
   }
 
   export type LoanOrderByWithRelationInput = {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    purpose?: SortOrderInput | SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
+    account?: BankAccountOrderByWithRelationInput
   }
 
   export type LoanWhereUniqueInput = Prisma.AtLeast<{
@@ -14688,27 +16221,34 @@ export namespace Prisma {
     OR?: LoanWhereInput[]
     NOT?: LoanWhereInput | LoanWhereInput[]
     customerId?: IntFilter<"Loan"> | number
+    accountId?: IntNullableFilter<"Loan"> | number | null
     amount?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"Loan"> | number
     startDate?: DateTimeFilter<"Loan"> | Date | string
     endDate?: DateTimeFilter<"Loan"> | Date | string
+    purpose?: StringNullableFilter<"Loan"> | string | null
     status?: EnumLoanStatusFilter<"Loan"> | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFilter<"Loan"> | $Enums.ApprovalStatus
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountNullableScalarRelationFilter, BankAccountWhereInput> | null
   }, "id" | "loanId">
 
   export type LoanOrderByWithAggregationInput = {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    purpose?: SortOrderInput | SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LoanCountOrderByAggregateInput
@@ -14725,12 +16265,15 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Loan"> | number
     loanId?: StringWithAggregatesFilter<"Loan"> | string
     customerId?: IntWithAggregatesFilter<"Loan"> | number
+    accountId?: IntNullableWithAggregatesFilter<"Loan"> | number | null
     amount?: DecimalWithAggregatesFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalWithAggregatesFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     duration?: IntWithAggregatesFilter<"Loan"> | number
     startDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+    purpose?: StringNullableWithAggregatesFilter<"Loan"> | string | null
     status?: EnumLoanStatusWithAggregatesFilter<"Loan"> | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusWithAggregatesFilter<"Loan"> | $Enums.ApprovalStatus
     createdAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
   }
@@ -14742,6 +16285,7 @@ export namespace Prisma {
     id?: IntFilter<"LoanApplication"> | number
     loanId?: StringFilter<"LoanApplication"> | string
     customerId?: IntFilter<"LoanApplication"> | number
+    accountId?: IntFilter<"LoanApplication"> | number
     amount?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"LoanApplication"> | number
@@ -14750,12 +16294,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
     updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
   }
 
   export type LoanApplicationOrderByWithRelationInput = {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -14764,6 +16310,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
+    account?: BankAccountOrderByWithRelationInput
   }
 
   export type LoanApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -14773,6 +16320,7 @@ export namespace Prisma {
     OR?: LoanApplicationWhereInput[]
     NOT?: LoanApplicationWhereInput | LoanApplicationWhereInput[]
     customerId?: IntFilter<"LoanApplication"> | number
+    accountId?: IntFilter<"LoanApplication"> | number
     amount?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"LoanApplication"> | number
@@ -14781,12 +16329,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
     updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
   }, "id" | "loanId">
 
   export type LoanApplicationOrderByWithAggregationInput = {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -14808,6 +16358,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"LoanApplication"> | number
     loanId?: StringWithAggregatesFilter<"LoanApplication"> | string
     customerId?: IntWithAggregatesFilter<"LoanApplication"> | number
+    accountId?: IntWithAggregatesFilter<"LoanApplication"> | number
     amount?: DecimalWithAggregatesFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalWithAggregatesFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     duration?: IntWithAggregatesFilter<"LoanApplication"> | number
@@ -14892,6 +16443,86 @@ export namespace Prisma {
     cvv?: StringWithAggregatesFilter<"Card"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Card"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Card"> | Date | string
+  }
+
+  export type StatementRequestWhereInput = {
+    AND?: StatementRequestWhereInput | StatementRequestWhereInput[]
+    OR?: StatementRequestWhereInput[]
+    NOT?: StatementRequestWhereInput | StatementRequestWhereInput[]
+    id?: IntFilter<"StatementRequest"> | number
+    customerId?: IntFilter<"StatementRequest"> | number
+    accountId?: IntFilter<"StatementRequest"> | number
+    startDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    endDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    format?: StringFilter<"StatementRequest"> | string
+    status?: StringFilter<"StatementRequest"> | string
+    createdAt?: DateTimeFilter<"StatementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"StatementRequest"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
+  }
+
+  export type StatementRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    format?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    account?: BankAccountOrderByWithRelationInput
+  }
+
+  export type StatementRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: StatementRequestWhereInput | StatementRequestWhereInput[]
+    OR?: StatementRequestWhereInput[]
+    NOT?: StatementRequestWhereInput | StatementRequestWhereInput[]
+    customerId?: IntFilter<"StatementRequest"> | number
+    accountId?: IntFilter<"StatementRequest"> | number
+    startDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    endDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    format?: StringFilter<"StatementRequest"> | string
+    status?: StringFilter<"StatementRequest"> | string
+    createdAt?: DateTimeFilter<"StatementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"StatementRequest"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    account?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
+  }, "id">
+
+  export type StatementRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    format?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StatementRequestCountOrderByAggregateInput
+    _avg?: StatementRequestAvgOrderByAggregateInput
+    _max?: StatementRequestMaxOrderByAggregateInput
+    _min?: StatementRequestMinOrderByAggregateInput
+    _sum?: StatementRequestSumOrderByAggregateInput
+  }
+
+  export type StatementRequestScalarWhereWithAggregatesInput = {
+    AND?: StatementRequestScalarWhereWithAggregatesInput | StatementRequestScalarWhereWithAggregatesInput[]
+    OR?: StatementRequestScalarWhereWithAggregatesInput[]
+    NOT?: StatementRequestScalarWhereWithAggregatesInput | StatementRequestScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"StatementRequest"> | number
+    customerId?: IntWithAggregatesFilter<"StatementRequest"> | number
+    accountId?: IntWithAggregatesFilter<"StatementRequest"> | number
+    startDate?: DateTimeWithAggregatesFilter<"StatementRequest"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"StatementRequest"> | Date | string
+    format?: StringWithAggregatesFilter<"StatementRequest"> | string
+    status?: StringWithAggregatesFilter<"StatementRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StatementRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StatementRequest"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -15247,7 +16878,8 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -15267,7 +16899,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUpdateInput = {
@@ -15284,7 +16917,8 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -15304,7 +16938,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerCreateManyInput = {
@@ -15360,7 +16995,10 @@ export namespace Prisma {
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutBankAccountsInput
     transactions?: TransactionCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountUncheckedCreateInput = {
@@ -15377,7 +17015,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountUpdateInput = {
@@ -15393,7 +17034,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateInput = {
@@ -15410,7 +17054,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountCreateManyInput = {
@@ -15555,22 +17202,28 @@ export namespace Prisma {
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutLoansInput
+    account?: BankAccountCreateNestedOneWithoutLoansInput
   }
 
   export type LoanUncheckedCreateInput = {
     id?: number
     loanId?: string
     customerId: number
+    accountId?: number | null
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15582,22 +17235,28 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutLoansNestedInput
+    account?: BankAccountUpdateOneWithoutLoansNestedInput
   }
 
   export type LoanUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
     customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: NullableIntFieldUpdateOperationsInput | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15606,12 +17265,15 @@ export namespace Prisma {
     id?: number
     loanId?: string
     customerId: number
+    accountId?: number | null
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15623,7 +17285,9 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15632,12 +17296,15 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
     customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: NullableIntFieldUpdateOperationsInput | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15652,12 +17319,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutLoanApplicationsInput
+    account: BankAccountCreateNestedOneWithoutLoanApplicationsInput
   }
 
   export type LoanApplicationUncheckedCreateInput = {
     id?: number
     loanId?: string
     customerId: number
+    accountId: number
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
@@ -15677,12 +17346,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    account?: BankAccountUpdateOneRequiredWithoutLoanApplicationsNestedInput
   }
 
   export type LoanApplicationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
     customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -15696,6 +17367,7 @@ export namespace Prisma {
     id?: number
     loanId?: string
     customerId: number
+    accountId: number
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
@@ -15720,6 +17392,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
     customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -15805,6 +17478,85 @@ export namespace Prisma {
     cardType?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cvv?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestCreateInput = {
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutStatementRequestsInput
+    account: BankAccountCreateNestedOneWithoutStatementRequestsInput
+  }
+
+  export type StatementRequestUncheckedCreateInput = {
+    id?: number
+    customerId: number
+    accountId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatementRequestUpdateInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutStatementRequestsNestedInput
+    account?: BankAccountUpdateOneRequiredWithoutStatementRequestsNestedInput
+  }
+
+  export type StatementRequestUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestCreateManyInput = {
+    id?: number
+    customerId: number
+    accountId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatementRequestUpdateManyMutationInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16162,6 +17914,12 @@ export namespace Prisma {
     none?: LoanApplicationWhereInput
   }
 
+  export type StatementRequestListRelationFilter = {
+    every?: StatementRequestWhereInput
+    some?: StatementRequestWhereInput
+    none?: StatementRequestWhereInput
+  }
+
   export type BankAccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -16179,6 +17937,10 @@ export namespace Prisma {
   }
 
   export type LoanApplicationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StatementRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16545,12 +18307,15 @@ export namespace Prisma {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    purpose?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16558,6 +18323,7 @@ export namespace Prisma {
   export type LoanAvgOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16567,12 +18333,15 @@ export namespace Prisma {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    purpose?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16581,12 +18350,15 @@ export namespace Prisma {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    purpose?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16594,6 +18366,7 @@ export namespace Prisma {
   export type LoanSumOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16609,10 +18382,16 @@ export namespace Prisma {
     _max?: NestedEnumLoanStatusFilter<$PrismaModel>
   }
 
+  export type BankAccountScalarRelationFilter = {
+    is?: BankAccountWhereInput
+    isNot?: BankAccountWhereInput
+  }
+
   export type LoanApplicationCountOrderByAggregateInput = {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16625,6 +18404,7 @@ export namespace Prisma {
   export type LoanApplicationAvgOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16634,6 +18414,7 @@ export namespace Prisma {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16647,6 +18428,7 @@ export namespace Prisma {
     id?: SortOrder
     loanId?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16659,6 +18441,7 @@ export namespace Prisma {
   export type LoanApplicationSumOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
+    accountId?: SortOrder
     amount?: SortOrder
     interestRate?: SortOrder
     duration?: SortOrder
@@ -16725,6 +18508,54 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCardTypeFilter<$PrismaModel>
     _max?: NestedEnumCardTypeFilter<$PrismaModel>
+  }
+
+  export type StatementRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    format?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatementRequestAvgOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+  }
+
+  export type StatementRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    format?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatementRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    format?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatementRequestSumOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    accountId?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -16926,6 +18757,13 @@ export namespace Prisma {
     connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
   }
 
+  export type StatementRequestCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput> | StatementRequestCreateWithoutCustomerInput[] | StatementRequestUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutCustomerInput | StatementRequestCreateOrConnectWithoutCustomerInput[]
+    createMany?: StatementRequestCreateManyCustomerInputEnvelope
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCustomerInput = {
     create?: XOR<UserCreateWithoutCustomerInput, UserUncheckedCreateWithoutCustomerInput>
     connectOrCreate?: UserCreateOrConnectWithoutCustomerInput
@@ -16965,6 +18803,13 @@ export namespace Prisma {
     connectOrCreate?: LoanApplicationCreateOrConnectWithoutCustomerInput | LoanApplicationCreateOrConnectWithoutCustomerInput[]
     createMany?: LoanApplicationCreateManyCustomerInputEnvelope
     connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+  }
+
+  export type StatementRequestUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput> | StatementRequestCreateWithoutCustomerInput[] | StatementRequestUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutCustomerInput | StatementRequestCreateOrConnectWithoutCustomerInput[]
+    createMany?: StatementRequestCreateManyCustomerInputEnvelope
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
   }
 
   export type EnumApprovalStatusFieldUpdateOperationsInput = {
@@ -17039,6 +18884,20 @@ export namespace Prisma {
     update?: LoanApplicationUpdateWithWhereUniqueWithoutCustomerInput | LoanApplicationUpdateWithWhereUniqueWithoutCustomerInput[]
     updateMany?: LoanApplicationUpdateManyWithWhereWithoutCustomerInput | LoanApplicationUpdateManyWithWhereWithoutCustomerInput[]
     deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
+  }
+
+  export type StatementRequestUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput> | StatementRequestCreateWithoutCustomerInput[] | StatementRequestUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutCustomerInput | StatementRequestCreateOrConnectWithoutCustomerInput[]
+    upsert?: StatementRequestUpsertWithWhereUniqueWithoutCustomerInput | StatementRequestUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: StatementRequestCreateManyCustomerInputEnvelope
+    set?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    disconnect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    delete?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    update?: StatementRequestUpdateWithWhereUniqueWithoutCustomerInput | StatementRequestUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: StatementRequestUpdateManyWithWhereWithoutCustomerInput | StatementRequestUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutCustomerNestedInput = {
@@ -17127,6 +18986,20 @@ export namespace Prisma {
     deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
   }
 
+  export type StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput> | StatementRequestCreateWithoutCustomerInput[] | StatementRequestUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutCustomerInput | StatementRequestCreateOrConnectWithoutCustomerInput[]
+    upsert?: StatementRequestUpsertWithWhereUniqueWithoutCustomerInput | StatementRequestUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: StatementRequestCreateManyCustomerInputEnvelope
+    set?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    disconnect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    delete?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    update?: StatementRequestUpdateWithWhereUniqueWithoutCustomerInput | StatementRequestUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: StatementRequestUpdateManyWithWhereWithoutCustomerInput | StatementRequestUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
+  }
+
   export type CustomerCreateNestedOneWithoutBankAccountsInput = {
     create?: XOR<CustomerCreateWithoutBankAccountsInput, CustomerUncheckedCreateWithoutBankAccountsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutBankAccountsInput
@@ -17140,11 +19013,32 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type StatementRequestCreateNestedManyWithoutAccountInput = {
+    create?: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput> | StatementRequestCreateWithoutAccountInput[] | StatementRequestUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutAccountInput | StatementRequestCreateOrConnectWithoutAccountInput[]
+    createMany?: StatementRequestCreateManyAccountInputEnvelope
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+  }
+
   export type TransactionCreateNestedManyWithoutReceiverAccountInput = {
     create?: XOR<TransactionCreateWithoutReceiverAccountInput, TransactionUncheckedCreateWithoutReceiverAccountInput> | TransactionCreateWithoutReceiverAccountInput[] | TransactionUncheckedCreateWithoutReceiverAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReceiverAccountInput | TransactionCreateOrConnectWithoutReceiverAccountInput[]
     createMany?: TransactionCreateManyReceiverAccountInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type LoanCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput> | LoanCreateWithoutAccountInput[] | LoanUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutAccountInput | LoanCreateOrConnectWithoutAccountInput[]
+    createMany?: LoanCreateManyAccountInputEnvelope
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  }
+
+  export type LoanApplicationCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput> | LoanApplicationCreateWithoutAccountInput[] | LoanApplicationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutAccountInput | LoanApplicationCreateOrConnectWithoutAccountInput[]
+    createMany?: LoanApplicationCreateManyAccountInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
   }
 
   export type TransactionUncheckedCreateNestedManyWithoutAccountInput = {
@@ -17154,11 +19048,32 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type StatementRequestUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput> | StatementRequestCreateWithoutAccountInput[] | StatementRequestUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutAccountInput | StatementRequestCreateOrConnectWithoutAccountInput[]
+    createMany?: StatementRequestCreateManyAccountInputEnvelope
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput = {
     create?: XOR<TransactionCreateWithoutReceiverAccountInput, TransactionUncheckedCreateWithoutReceiverAccountInput> | TransactionCreateWithoutReceiverAccountInput[] | TransactionUncheckedCreateWithoutReceiverAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReceiverAccountInput | TransactionCreateOrConnectWithoutReceiverAccountInput[]
     createMany?: TransactionCreateManyReceiverAccountInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type LoanUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput> | LoanCreateWithoutAccountInput[] | LoanUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutAccountInput | LoanCreateOrConnectWithoutAccountInput[]
+    createMany?: LoanCreateManyAccountInputEnvelope
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  }
+
+  export type LoanApplicationUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput> | LoanApplicationCreateWithoutAccountInput[] | LoanApplicationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutAccountInput | LoanApplicationCreateOrConnectWithoutAccountInput[]
+    createMany?: LoanApplicationCreateManyAccountInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
   }
 
   export type EnumAccountTypeFieldUpdateOperationsInput = {
@@ -17207,6 +19122,20 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type StatementRequestUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput> | StatementRequestCreateWithoutAccountInput[] | StatementRequestUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutAccountInput | StatementRequestCreateOrConnectWithoutAccountInput[]
+    upsert?: StatementRequestUpsertWithWhereUniqueWithoutAccountInput | StatementRequestUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: StatementRequestCreateManyAccountInputEnvelope
+    set?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    disconnect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    delete?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    update?: StatementRequestUpdateWithWhereUniqueWithoutAccountInput | StatementRequestUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: StatementRequestUpdateManyWithWhereWithoutAccountInput | StatementRequestUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
+  }
+
   export type TransactionUpdateManyWithoutReceiverAccountNestedInput = {
     create?: XOR<TransactionCreateWithoutReceiverAccountInput, TransactionUncheckedCreateWithoutReceiverAccountInput> | TransactionCreateWithoutReceiverAccountInput[] | TransactionUncheckedCreateWithoutReceiverAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReceiverAccountInput | TransactionCreateOrConnectWithoutReceiverAccountInput[]
@@ -17219,6 +19148,34 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutReceiverAccountInput | TransactionUpdateWithWhereUniqueWithoutReceiverAccountInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutReceiverAccountInput | TransactionUpdateManyWithWhereWithoutReceiverAccountInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type LoanUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput> | LoanCreateWithoutAccountInput[] | LoanUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutAccountInput | LoanCreateOrConnectWithoutAccountInput[]
+    upsert?: LoanUpsertWithWhereUniqueWithoutAccountInput | LoanUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoanCreateManyAccountInputEnvelope
+    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    update?: LoanUpdateWithWhereUniqueWithoutAccountInput | LoanUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoanUpdateManyWithWhereWithoutAccountInput | LoanUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type LoanApplicationUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput> | LoanApplicationCreateWithoutAccountInput[] | LoanApplicationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutAccountInput | LoanApplicationCreateOrConnectWithoutAccountInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutAccountInput | LoanApplicationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoanApplicationCreateManyAccountInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutAccountInput | LoanApplicationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutAccountInput | LoanApplicationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
   }
 
   export type TransactionUncheckedUpdateManyWithoutAccountNestedInput = {
@@ -17235,6 +19192,20 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type StatementRequestUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput> | StatementRequestCreateWithoutAccountInput[] | StatementRequestUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: StatementRequestCreateOrConnectWithoutAccountInput | StatementRequestCreateOrConnectWithoutAccountInput[]
+    upsert?: StatementRequestUpsertWithWhereUniqueWithoutAccountInput | StatementRequestUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: StatementRequestCreateManyAccountInputEnvelope
+    set?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    disconnect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    delete?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    connect?: StatementRequestWhereUniqueInput | StatementRequestWhereUniqueInput[]
+    update?: StatementRequestUpdateWithWhereUniqueWithoutAccountInput | StatementRequestUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: StatementRequestUpdateManyWithWhereWithoutAccountInput | StatementRequestUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
+  }
+
   export type TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput = {
     create?: XOR<TransactionCreateWithoutReceiverAccountInput, TransactionUncheckedCreateWithoutReceiverAccountInput> | TransactionCreateWithoutReceiverAccountInput[] | TransactionUncheckedCreateWithoutReceiverAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReceiverAccountInput | TransactionCreateOrConnectWithoutReceiverAccountInput[]
@@ -17247,6 +19218,34 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutReceiverAccountInput | TransactionUpdateWithWhereUniqueWithoutReceiverAccountInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutReceiverAccountInput | TransactionUpdateManyWithWhereWithoutReceiverAccountInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type LoanUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput> | LoanCreateWithoutAccountInput[] | LoanUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutAccountInput | LoanCreateOrConnectWithoutAccountInput[]
+    upsert?: LoanUpsertWithWhereUniqueWithoutAccountInput | LoanUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoanCreateManyAccountInputEnvelope
+    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    update?: LoanUpdateWithWhereUniqueWithoutAccountInput | LoanUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoanUpdateManyWithWhereWithoutAccountInput | LoanUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput> | LoanApplicationCreateWithoutAccountInput[] | LoanApplicationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutAccountInput | LoanApplicationCreateOrConnectWithoutAccountInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutAccountInput | LoanApplicationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoanApplicationCreateManyAccountInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutAccountInput | LoanApplicationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutAccountInput | LoanApplicationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
   }
 
   export type CustomerCreateNestedOneWithoutTransactionsInput = {
@@ -17317,6 +19316,12 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput
   }
 
+  export type BankAccountCreateNestedOneWithoutLoansInput = {
+    create?: XOR<BankAccountCreateWithoutLoansInput, BankAccountUncheckedCreateWithoutLoansInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLoansInput
+    connect?: BankAccountWhereUniqueInput
+  }
+
   export type EnumLoanStatusFieldUpdateOperationsInput = {
     set?: $Enums.LoanStatus
   }
@@ -17329,10 +19334,26 @@ export namespace Prisma {
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutLoansInput, CustomerUpdateWithoutLoansInput>, CustomerUncheckedUpdateWithoutLoansInput>
   }
 
+  export type BankAccountUpdateOneWithoutLoansNestedInput = {
+    create?: XOR<BankAccountCreateWithoutLoansInput, BankAccountUncheckedCreateWithoutLoansInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLoansInput
+    upsert?: BankAccountUpsertWithoutLoansInput
+    disconnect?: BankAccountWhereInput | boolean
+    delete?: BankAccountWhereInput | boolean
+    connect?: BankAccountWhereUniqueInput
+    update?: XOR<XOR<BankAccountUpdateToOneWithWhereWithoutLoansInput, BankAccountUpdateWithoutLoansInput>, BankAccountUncheckedUpdateWithoutLoansInput>
+  }
+
   export type CustomerCreateNestedOneWithoutLoanApplicationsInput = {
     create?: XOR<CustomerCreateWithoutLoanApplicationsInput, CustomerUncheckedCreateWithoutLoanApplicationsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutLoanApplicationsInput
     connect?: CustomerWhereUniqueInput
+  }
+
+  export type BankAccountCreateNestedOneWithoutLoanApplicationsInput = {
+    create?: XOR<BankAccountCreateWithoutLoanApplicationsInput, BankAccountUncheckedCreateWithoutLoanApplicationsInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLoanApplicationsInput
+    connect?: BankAccountWhereUniqueInput
   }
 
   export type CustomerUpdateOneRequiredWithoutLoanApplicationsNestedInput = {
@@ -17341,6 +19362,14 @@ export namespace Prisma {
     upsert?: CustomerUpsertWithoutLoanApplicationsInput
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutLoanApplicationsInput, CustomerUpdateWithoutLoanApplicationsInput>, CustomerUncheckedUpdateWithoutLoanApplicationsInput>
+  }
+
+  export type BankAccountUpdateOneRequiredWithoutLoanApplicationsNestedInput = {
+    create?: XOR<BankAccountCreateWithoutLoanApplicationsInput, BankAccountUncheckedCreateWithoutLoanApplicationsInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLoanApplicationsInput
+    upsert?: BankAccountUpsertWithoutLoanApplicationsInput
+    connect?: BankAccountWhereUniqueInput
+    update?: XOR<XOR<BankAccountUpdateToOneWithWhereWithoutLoanApplicationsInput, BankAccountUpdateWithoutLoanApplicationsInput>, BankAccountUncheckedUpdateWithoutLoanApplicationsInput>
   }
 
   export type CustomerCreateNestedOneWithoutCardsInput = {
@@ -17359,6 +19388,34 @@ export namespace Prisma {
     upsert?: CustomerUpsertWithoutCardsInput
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutCardsInput, CustomerUpdateWithoutCardsInput>, CustomerUncheckedUpdateWithoutCardsInput>
+  }
+
+  export type CustomerCreateNestedOneWithoutStatementRequestsInput = {
+    create?: XOR<CustomerCreateWithoutStatementRequestsInput, CustomerUncheckedCreateWithoutStatementRequestsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutStatementRequestsInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type BankAccountCreateNestedOneWithoutStatementRequestsInput = {
+    create?: XOR<BankAccountCreateWithoutStatementRequestsInput, BankAccountUncheckedCreateWithoutStatementRequestsInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutStatementRequestsInput
+    connect?: BankAccountWhereUniqueInput
+  }
+
+  export type CustomerUpdateOneRequiredWithoutStatementRequestsNestedInput = {
+    create?: XOR<CustomerCreateWithoutStatementRequestsInput, CustomerUncheckedCreateWithoutStatementRequestsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutStatementRequestsInput
+    upsert?: CustomerUpsertWithoutStatementRequestsInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutStatementRequestsInput, CustomerUpdateWithoutStatementRequestsInput>, CustomerUncheckedUpdateWithoutStatementRequestsInput>
+  }
+
+  export type BankAccountUpdateOneRequiredWithoutStatementRequestsNestedInput = {
+    create?: XOR<BankAccountCreateWithoutStatementRequestsInput, BankAccountUncheckedCreateWithoutStatementRequestsInput>
+    connectOrCreate?: BankAccountCreateOrConnectWithoutStatementRequestsInput
+    upsert?: BankAccountUpsertWithoutStatementRequestsInput
+    connect?: BankAccountWhereUniqueInput
+    update?: XOR<XOR<BankAccountUpdateToOneWithWhereWithoutStatementRequestsInput, BankAccountUpdateWithoutStatementRequestsInput>, BankAccountUncheckedUpdateWithoutStatementRequestsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17819,7 +19876,8 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutUserInput = {
@@ -17837,7 +19895,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutUserInput = {
@@ -17935,7 +19994,8 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutUserInput = {
@@ -17953,7 +20013,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -18104,7 +20165,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: TransactionCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutCustomerInput = {
@@ -18120,7 +20184,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutCustomerInput = {
@@ -18175,20 +20242,26 @@ export namespace Prisma {
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    account?: BankAccountCreateNestedOneWithoutLoansInput
   }
 
   export type LoanUncheckedCreateWithoutCustomerInput = {
     id?: number
     loanId?: string
+    accountId?: number | null
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18243,11 +20316,13 @@ export namespace Prisma {
     approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    account: BankAccountCreateNestedOneWithoutLoanApplicationsInput
   }
 
   export type LoanApplicationUncheckedCreateWithoutCustomerInput = {
     id?: number
     loanId?: string
+    accountId: number
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
@@ -18264,6 +20339,37 @@ export namespace Prisma {
 
   export type LoanApplicationCreateManyCustomerInputEnvelope = {
     data: LoanApplicationCreateManyCustomerInput | LoanApplicationCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StatementRequestCreateWithoutCustomerInput = {
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: BankAccountCreateNestedOneWithoutStatementRequestsInput
+  }
+
+  export type StatementRequestUncheckedCreateWithoutCustomerInput = {
+    id?: number
+    accountId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatementRequestCreateOrConnectWithoutCustomerInput = {
+    where: StatementRequestWhereUniqueInput
+    create: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type StatementRequestCreateManyCustomerInputEnvelope = {
+    data: StatementRequestCreateManyCustomerInput | StatementRequestCreateManyCustomerInput[]
     skipDuplicates?: boolean
   }
 
@@ -18388,12 +20494,15 @@ export namespace Prisma {
     id?: IntFilter<"Loan"> | number
     loanId?: StringFilter<"Loan"> | string
     customerId?: IntFilter<"Loan"> | number
+    accountId?: IntNullableFilter<"Loan"> | number | null
     amount?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"Loan"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"Loan"> | number
     startDate?: DateTimeFilter<"Loan"> | Date | string
     endDate?: DateTimeFilter<"Loan"> | Date | string
+    purpose?: StringNullableFilter<"Loan"> | string | null
     status?: EnumLoanStatusFilter<"Loan"> | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFilter<"Loan"> | $Enums.ApprovalStatus
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
   }
@@ -18452,6 +20561,7 @@ export namespace Prisma {
     id?: IntFilter<"LoanApplication"> | number
     loanId?: StringFilter<"LoanApplication"> | string
     customerId?: IntFilter<"LoanApplication"> | number
+    accountId?: IntFilter<"LoanApplication"> | number
     amount?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFilter<"LoanApplication"> | Decimal | DecimalJsLike | number | string
     duration?: IntFilter<"LoanApplication"> | number
@@ -18459,6 +20569,37 @@ export namespace Prisma {
     approvalStatus?: EnumApprovalStatusFilter<"LoanApplication"> | $Enums.ApprovalStatus
     createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
     updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
+  }
+
+  export type StatementRequestUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: StatementRequestWhereUniqueInput
+    update: XOR<StatementRequestUpdateWithoutCustomerInput, StatementRequestUncheckedUpdateWithoutCustomerInput>
+    create: XOR<StatementRequestCreateWithoutCustomerInput, StatementRequestUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type StatementRequestUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: StatementRequestWhereUniqueInput
+    data: XOR<StatementRequestUpdateWithoutCustomerInput, StatementRequestUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type StatementRequestUpdateManyWithWhereWithoutCustomerInput = {
+    where: StatementRequestScalarWhereInput
+    data: XOR<StatementRequestUpdateManyMutationInput, StatementRequestUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type StatementRequestScalarWhereInput = {
+    AND?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
+    OR?: StatementRequestScalarWhereInput[]
+    NOT?: StatementRequestScalarWhereInput | StatementRequestScalarWhereInput[]
+    id?: IntFilter<"StatementRequest"> | number
+    customerId?: IntFilter<"StatementRequest"> | number
+    accountId?: IntFilter<"StatementRequest"> | number
+    startDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    endDate?: DateTimeFilter<"StatementRequest"> | Date | string
+    format?: StringFilter<"StatementRequest"> | string
+    status?: StringFilter<"StatementRequest"> | string
+    createdAt?: DateTimeFilter<"StatementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"StatementRequest"> | Date | string
   }
 
   export type UserUpsertWithoutCustomerInput = {
@@ -18511,7 +20652,8 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -18530,7 +20672,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutBankAccountsInput = {
@@ -18573,6 +20716,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type StatementRequestCreateWithoutAccountInput = {
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutStatementRequestsInput
+  }
+
+  export type StatementRequestUncheckedCreateWithoutAccountInput = {
+    id?: number
+    customerId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatementRequestCreateOrConnectWithoutAccountInput = {
+    where: StatementRequestWhereUniqueInput
+    create: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput>
+  }
+
+  export type StatementRequestCreateManyAccountInputEnvelope = {
+    data: StatementRequestCreateManyAccountInput | StatementRequestCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TransactionCreateWithoutReceiverAccountInput = {
     transactionId?: string
     amount: Decimal | DecimalJsLike | number | string
@@ -18608,6 +20782,82 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LoanCreateWithoutAccountInput = {
+    loanId?: string
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    startDate?: Date | string
+    endDate: Date | string
+    purpose?: string | null
+    status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutLoansInput
+  }
+
+  export type LoanUncheckedCreateWithoutAccountInput = {
+    id?: number
+    loanId?: string
+    customerId: number
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    startDate?: Date | string
+    endDate: Date | string
+    purpose?: string | null
+    status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanCreateOrConnectWithoutAccountInput = {
+    where: LoanWhereUniqueInput
+    create: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoanCreateManyAccountInputEnvelope = {
+    data: LoanCreateManyAccountInput | LoanCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoanApplicationCreateWithoutAccountInput = {
+    loanId?: string
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    purpose: string
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutLoanApplicationsInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutAccountInput = {
+    id?: number
+    loanId?: string
+    customerId: number
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    purpose: string
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutAccountInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoanApplicationCreateManyAccountInputEnvelope = {
+    data: LoanApplicationCreateManyAccountInput | LoanApplicationCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CustomerUpsertWithoutBankAccountsInput = {
     update: XOR<CustomerUpdateWithoutBankAccountsInput, CustomerUncheckedUpdateWithoutBankAccountsInput>
     create: XOR<CustomerCreateWithoutBankAccountsInput, CustomerUncheckedCreateWithoutBankAccountsInput>
@@ -18632,7 +20882,8 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -18651,7 +20902,8 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutAccountInput = {
@@ -18670,6 +20922,22 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutAccountInput>
   }
 
+  export type StatementRequestUpsertWithWhereUniqueWithoutAccountInput = {
+    where: StatementRequestWhereUniqueInput
+    update: XOR<StatementRequestUpdateWithoutAccountInput, StatementRequestUncheckedUpdateWithoutAccountInput>
+    create: XOR<StatementRequestCreateWithoutAccountInput, StatementRequestUncheckedCreateWithoutAccountInput>
+  }
+
+  export type StatementRequestUpdateWithWhereUniqueWithoutAccountInput = {
+    where: StatementRequestWhereUniqueInput
+    data: XOR<StatementRequestUpdateWithoutAccountInput, StatementRequestUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type StatementRequestUpdateManyWithWhereWithoutAccountInput = {
+    where: StatementRequestScalarWhereInput
+    data: XOR<StatementRequestUpdateManyMutationInput, StatementRequestUncheckedUpdateManyWithoutAccountInput>
+  }
+
   export type TransactionUpsertWithWhereUniqueWithoutReceiverAccountInput = {
     where: TransactionWhereUniqueInput
     update: XOR<TransactionUpdateWithoutReceiverAccountInput, TransactionUncheckedUpdateWithoutReceiverAccountInput>
@@ -18686,6 +20954,38 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutReceiverAccountInput>
   }
 
+  export type LoanUpsertWithWhereUniqueWithoutAccountInput = {
+    where: LoanWhereUniqueInput
+    update: XOR<LoanUpdateWithoutAccountInput, LoanUncheckedUpdateWithoutAccountInput>
+    create: XOR<LoanCreateWithoutAccountInput, LoanUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoanUpdateWithWhereUniqueWithoutAccountInput = {
+    where: LoanWhereUniqueInput
+    data: XOR<LoanUpdateWithoutAccountInput, LoanUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type LoanUpdateManyWithWhereWithoutAccountInput = {
+    where: LoanScalarWhereInput
+    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type LoanApplicationUpsertWithWhereUniqueWithoutAccountInput = {
+    where: LoanApplicationWhereUniqueInput
+    update: XOR<LoanApplicationUpdateWithoutAccountInput, LoanApplicationUncheckedUpdateWithoutAccountInput>
+    create: XOR<LoanApplicationCreateWithoutAccountInput, LoanApplicationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoanApplicationUpdateWithWhereUniqueWithoutAccountInput = {
+    where: LoanApplicationWhereUniqueInput
+    data: XOR<LoanApplicationUpdateWithoutAccountInput, LoanApplicationUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type LoanApplicationUpdateManyWithWhereWithoutAccountInput = {
+    where: LoanApplicationScalarWhereInput
+    data: XOR<LoanApplicationUpdateManyMutationInput, LoanApplicationUncheckedUpdateManyWithoutAccountInput>
+  }
+
   export type CustomerCreateWithoutTransactionsInput = {
     name: string
     dob: Date | string
@@ -18699,7 +20999,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -18718,7 +21019,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutTransactionsInput = {
@@ -18738,7 +21040,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutBankAccountsInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutTransactionsInput = {
@@ -18754,7 +21059,10 @@ export namespace Prisma {
     approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
     receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutTransactionsInput = {
@@ -18775,6 +21083,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutBankAccountsInput
     transactions?: TransactionCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutReceivedTransactionsInput = {
@@ -18791,6 +21102,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type BankAccountCreateOrConnectWithoutReceivedTransactionsInput = {
@@ -18822,7 +21136,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -18841,7 +21156,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type BankAccountUpsertWithoutTransactionsInput = {
@@ -18867,7 +21183,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutTransactionsInput = {
@@ -18883,7 +21202,10 @@ export namespace Prisma {
     approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUpsertWithoutReceivedTransactionsInput = {
@@ -18910,6 +21232,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutReceivedTransactionsInput = {
@@ -18926,6 +21251,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type CustomerCreateWithoutLoansInput = {
@@ -18941,7 +21269,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountCreateNestedManyWithoutCustomerInput
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -18960,12 +21289,55 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutCustomerInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutLoansInput = {
     where: CustomerWhereUniqueInput
     create: XOR<CustomerCreateWithoutLoansInput, CustomerUncheckedCreateWithoutLoansInput>
+  }
+
+  export type BankAccountCreateWithoutLoansInput = {
+    accountNumber: string
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutBankAccountsInput
+    transactions?: TransactionCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutLoansInput = {
+    id?: number
+    accountNumber: string
+    customerId: number
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountCreateOrConnectWithoutLoansInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutLoansInput, BankAccountUncheckedCreateWithoutLoansInput>
   }
 
   export type CustomerUpsertWithoutLoansInput = {
@@ -18992,7 +21364,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUpdateManyWithoutCustomerNestedInput
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -19011,7 +21384,56 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutCustomerNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type BankAccountUpsertWithoutLoansInput = {
+    update: XOR<BankAccountUpdateWithoutLoansInput, BankAccountUncheckedUpdateWithoutLoansInput>
+    create: XOR<BankAccountCreateWithoutLoansInput, BankAccountUncheckedCreateWithoutLoansInput>
+    where?: BankAccountWhereInput
+  }
+
+  export type BankAccountUpdateToOneWithWhereWithoutLoansInput = {
+    where?: BankAccountWhereInput
+    data: XOR<BankAccountUpdateWithoutLoansInput, BankAccountUncheckedUpdateWithoutLoansInput>
+  }
+
+  export type BankAccountUpdateWithoutLoansInput = {
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
+    transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutLoansInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type CustomerCreateWithoutLoanApplicationsInput = {
@@ -19028,6 +21450,7 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
     cards?: CardCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -19047,11 +21470,54 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
     cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutLoanApplicationsInput = {
     where: CustomerWhereUniqueInput
     create: XOR<CustomerCreateWithoutLoanApplicationsInput, CustomerUncheckedCreateWithoutLoanApplicationsInput>
+  }
+
+  export type BankAccountCreateWithoutLoanApplicationsInput = {
+    accountNumber: string
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutBankAccountsInput
+    transactions?: TransactionCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutLoanApplicationsInput = {
+    id?: number
+    accountNumber: string
+    customerId: number
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountCreateOrConnectWithoutLoanApplicationsInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutLoanApplicationsInput, BankAccountUncheckedCreateWithoutLoanApplicationsInput>
   }
 
   export type CustomerUpsertWithoutLoanApplicationsInput = {
@@ -19079,6 +21545,7 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
     cards?: CardUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -19098,6 +21565,55 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
     cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type BankAccountUpsertWithoutLoanApplicationsInput = {
+    update: XOR<BankAccountUpdateWithoutLoanApplicationsInput, BankAccountUncheckedUpdateWithoutLoanApplicationsInput>
+    create: XOR<BankAccountCreateWithoutLoanApplicationsInput, BankAccountUncheckedCreateWithoutLoanApplicationsInput>
+    where?: BankAccountWhereInput
+  }
+
+  export type BankAccountUpdateToOneWithWhereWithoutLoanApplicationsInput = {
+    where?: BankAccountWhereInput
+    data: XOR<BankAccountUpdateWithoutLoanApplicationsInput, BankAccountUncheckedUpdateWithoutLoanApplicationsInput>
+  }
+
+  export type BankAccountUpdateWithoutLoanApplicationsInput = {
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
+    transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutLoanApplicationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type CustomerCreateWithoutCardsInput = {
@@ -19113,7 +21629,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountCreateNestedManyWithoutCustomerInput
     transactions?: TransactionCreateNestedManyWithoutCustomerInput
     loans?: LoanCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestCreateNestedManyWithoutCustomerInput
     user: UserCreateNestedOneWithoutCustomerInput
   }
 
@@ -19132,7 +21649,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutCustomerInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
     loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
-    LoanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+    statementRequests?: StatementRequestUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutCardsInput = {
@@ -19164,7 +21682,8 @@ export namespace Prisma {
     bankAccounts?: BankAccountUpdateManyWithoutCustomerNestedInput
     transactions?: TransactionUpdateManyWithoutCustomerNestedInput
     loans?: LoanUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutCustomerNestedInput
     user?: UserUpdateOneRequiredWithoutCustomerNestedInput
   }
 
@@ -19183,7 +21702,188 @@ export namespace Prisma {
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutCustomerNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
     loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
-    LoanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerCreateWithoutStatementRequestsInput = {
+    name: string
+    dob: Date | string
+    phone: string
+    address: string
+    panNumber?: string | null
+    aadharNumber?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountCreateNestedManyWithoutCustomerInput
+    transactions?: TransactionCreateNestedManyWithoutCustomerInput
+    loans?: LoanCreateNestedManyWithoutCustomerInput
+    cards?: CardCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutCustomerInput
+    user: UserCreateNestedOneWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutStatementRequestsInput = {
+    id?: number
+    userId: string
+    name: string
+    dob: Date | string
+    phone: string
+    address: string
+    panNumber?: string | null
+    aadharNumber?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutCustomerInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutCustomerInput
+    loans?: LoanUncheckedCreateNestedManyWithoutCustomerInput
+    cards?: CardUncheckedCreateNestedManyWithoutCustomerInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutStatementRequestsInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutStatementRequestsInput, CustomerUncheckedCreateWithoutStatementRequestsInput>
+  }
+
+  export type BankAccountCreateWithoutStatementRequestsInput = {
+    accountNumber: string
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutBankAccountsInput
+    transactions?: TransactionCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutStatementRequestsInput = {
+    id?: number
+    accountNumber: string
+    customerId: number
+    accountType: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    interestRate?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.AccountStatus
+    branchName: string
+    pin?: string | null
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    receivedTransactions?: TransactionUncheckedCreateNestedManyWithoutReceiverAccountInput
+    loans?: LoanUncheckedCreateNestedManyWithoutAccountInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type BankAccountCreateOrConnectWithoutStatementRequestsInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutStatementRequestsInput, BankAccountUncheckedCreateWithoutStatementRequestsInput>
+  }
+
+  export type CustomerUpsertWithoutStatementRequestsInput = {
+    update: XOR<CustomerUpdateWithoutStatementRequestsInput, CustomerUncheckedUpdateWithoutStatementRequestsInput>
+    create: XOR<CustomerCreateWithoutStatementRequestsInput, CustomerUncheckedCreateWithoutStatementRequestsInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutStatementRequestsInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutStatementRequestsInput, CustomerUncheckedUpdateWithoutStatementRequestsInput>
+  }
+
+  export type CustomerUpdateWithoutStatementRequestsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUpdateManyWithoutCustomerNestedInput
+    transactions?: TransactionUpdateManyWithoutCustomerNestedInput
+    loans?: LoanUpdateManyWithoutCustomerNestedInput
+    cards?: CardUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutCustomerNestedInput
+    user?: UserUpdateOneRequiredWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutStatementRequestsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutCustomerNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutCustomerNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutCustomerNestedInput
+    cards?: CardUncheckedUpdateManyWithoutCustomerNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type BankAccountUpsertWithoutStatementRequestsInput = {
+    update: XOR<BankAccountUpdateWithoutStatementRequestsInput, BankAccountUncheckedUpdateWithoutStatementRequestsInput>
+    create: XOR<BankAccountCreateWithoutStatementRequestsInput, BankAccountUncheckedCreateWithoutStatementRequestsInput>
+    where?: BankAccountWhereInput
+  }
+
+  export type BankAccountUpdateToOneWithWhereWithoutStatementRequestsInput = {
+    where?: BankAccountWhereInput
+    data: XOR<BankAccountUpdateWithoutStatementRequestsInput, BankAccountUncheckedUpdateWithoutStatementRequestsInput>
+  }
+
+  export type BankAccountUpdateWithoutStatementRequestsInput = {
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutBankAccountsNestedInput
+    transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutStatementRequestsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    branchName?: StringFieldUpdateOperationsInput | string
+    pin?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -19316,12 +22016,15 @@ export namespace Prisma {
   export type LoanCreateManyCustomerInput = {
     id?: number
     loanId?: string
+    accountId?: number | null
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
     startDate?: Date | string
     endDate: Date | string
+    purpose?: string | null
     status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19340,11 +22043,23 @@ export namespace Prisma {
   export type LoanApplicationCreateManyCustomerInput = {
     id?: number
     loanId?: string
+    accountId: number
     amount: Decimal | DecimalJsLike | number | string
     interestRate: Decimal | DecimalJsLike | number | string
     duration: number
     purpose: string
     approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatementRequestCreateManyCustomerInput = {
+    id?: number
+    accountId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19361,7 +22076,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutCustomerInput = {
@@ -19377,7 +22095,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    statementRequests?: StatementRequestUncheckedUpdateManyWithoutAccountNestedInput
     receivedTransactions?: TransactionUncheckedUpdateManyWithoutReceiverAccountNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutAccountNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateManyWithoutCustomerInput = {
@@ -19439,20 +22160,26 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: BankAccountUpdateOneWithoutLoansNestedInput
   }
 
   export type LoanUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableIntFieldUpdateOperationsInput | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19460,12 +22187,15 @@ export namespace Prisma {
   export type LoanUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableIntFieldUpdateOperationsInput | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19511,11 +22241,13 @@ export namespace Prisma {
     approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: BankAccountUpdateOneRequiredWithoutLoanApplicationsNestedInput
   }
 
   export type LoanApplicationUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
+    accountId?: IntFieldUpdateOperationsInput | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -19528,11 +22260,44 @@ export namespace Prisma {
   export type LoanApplicationUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     loanId?: StringFieldUpdateOperationsInput | string
+    accountId?: IntFieldUpdateOperationsInput | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     duration?: IntFieldUpdateOperationsInput | number
     purpose?: StringFieldUpdateOperationsInput | string
     approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestUpdateWithoutCustomerInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: BankAccountUpdateOneRequiredWithoutStatementRequestsNestedInput
+  }
+
+  export type StatementRequestUncheckedUpdateWithoutCustomerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestUncheckedUpdateManyWithoutCustomerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19550,6 +22315,17 @@ export namespace Prisma {
     status?: $Enums.TransactionStatus
   }
 
+  export type StatementRequestCreateManyAccountInput = {
+    id?: number
+    customerId: number
+    startDate: Date | string
+    endDate: Date | string
+    format?: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TransactionCreateManyReceiverAccountInput = {
     id?: number
     transactionId?: string
@@ -19561,6 +22337,35 @@ export namespace Prisma {
     reason?: string | null
     description?: string | null
     status?: $Enums.TransactionStatus
+  }
+
+  export type LoanCreateManyAccountInput = {
+    id?: number
+    loanId?: string
+    customerId: number
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    startDate?: Date | string
+    endDate: Date | string
+    purpose?: string | null
+    status?: $Enums.LoanStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanApplicationCreateManyAccountInput = {
+    id?: number
+    loanId?: string
+    customerId: number
+    amount: Decimal | DecimalJsLike | number | string
+    interestRate: Decimal | DecimalJsLike | number | string
+    duration: number
+    purpose: string
+    approvalStatus?: $Enums.ApprovalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TransactionUpdateWithoutAccountInput = {
@@ -19601,6 +22406,38 @@ export namespace Prisma {
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   }
 
+  export type StatementRequestUpdateWithoutAccountInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutStatementRequestsNestedInput
+  }
+
+  export type StatementRequestUncheckedUpdateWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatementRequestUncheckedUpdateManyWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    format?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TransactionUpdateWithoutReceiverAccountInput = {
     transactionId?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -19637,6 +22474,91 @@ export namespace Prisma {
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+  }
+
+  export type LoanUpdateWithoutAccountInput = {
+    loanId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutLoansNestedInput
+  }
+
+  export type LoanUncheckedUpdateWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    loanId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateManyWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    loanId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApplicationUpdateWithoutAccountInput = {
+    loanId?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutLoanApplicationsNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    loanId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApplicationUncheckedUpdateManyWithoutAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    loanId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    duration?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

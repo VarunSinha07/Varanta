@@ -87,7 +87,8 @@ model Customer {
   transactions Transaction[]
   loans        Loan[]
   cards        Card[]
-  LoanApplications LoanApplication[]
+  loanApplications LoanApplication[]
+  statementRequests StatementRequest[]
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("customer")
@@ -108,7 +109,10 @@ model BankAccount {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   transactions  Transaction[]
+  statementRequests StatementRequest[]
   receivedTransactions Transaction[] @relation("ReceiverTransactions")
+  loans        Loan[]         // Added this relation for loans
+  loanApplications LoanApplication[]
 
   @@map("bank_account")
 }
@@ -137,12 +141,16 @@ model Loan {
   loanId       String     @unique @default(cuid())
   customerId   Int
   customer     Customer   @relation(fields: [customerId], references: [id])
+  accountId    Int?       // Added this field
+  account      BankAccount? @relation(fields: [accountId], references: [id]) // Added this relation
   amount       Decimal
   interestRate Decimal
   duration     Int        // in months
   startDate    DateTime   @default(now())
   endDate      DateTime
+  purpose      String?    // Added this field
   status       LoanStatus @default(PENDING)
+  approvalStatus ApprovalStatus @default(PENDING)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
@@ -154,6 +162,8 @@ model LoanApplication {
   loanId       String     @unique @default(cuid())
   customerId   Int
   customer     Customer   @relation(fields: [customerId], references: [id])
+  accountId    Int        // Added this field
+  account      BankAccount @relation(fields: [accountId], references: [id]) // Added this relation
   amount       Decimal
   interestRate Decimal
   duration     Int        // in months
@@ -164,12 +174,13 @@ model LoanApplication {
 
   @@map("loan_application")
 }
+
 model Card {
   id           Int       @id @default(autoincrement())
   cardId       String    @unique @default(cuid())
   cardNumber   String    @unique
   customerId   Int
-  customer     Customer  @relation(fields: [customerId], references: [id])
+  customer     Customer  @relation(fields: [customerId], references: [id])    
   cardType     CardType
   expiryDate   DateTime
   cvv          String
@@ -177,6 +188,22 @@ model Card {
   updatedAt    DateTime  @updatedAt
 
   @@map("card")
+}
+
+model StatementRequest {
+  id           Int       @id @default(autoincrement())
+  customerId   Int
+  customer     Customer  @relation(fields: [customerId], references: [id])
+  accountId    Int
+  account      BankAccount @relation(fields: [accountId], references: [id])
+  startDate    DateTime
+  endDate      DateTime
+  format       String    @default("PDF")
+  status       String    @default("COMPLETED")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("statement_request")
 }
 
 enum AccountType {
