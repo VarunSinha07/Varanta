@@ -76,7 +76,7 @@ export default function Home() {
             transition={{ delay: 0.5, duration: 1 }}
           >
             <Image
-              src="/placeholder.svg?height=400&width=800"
+              src="/home.png?height=400&width=800"
               alt="Banking App Interface"
               width={800}
               height={400}

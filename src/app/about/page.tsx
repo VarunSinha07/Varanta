@@ -380,8 +380,8 @@ export default function AboutPage() {
             >
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=300&width=300"
-                  alt="Jane Doe"
+                  src="/varun.jpeg?height=300&width=300"
+                  alt="varun"
                   fill
                   className="object-cover object-center"
                 />
@@ -389,7 +389,7 @@ export default function AboutPage() {
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-1 text-gray-900">Varun Sinha</h3>
                 <p className="text-primary font-medium mb-4">Founder</p>
-                <p className="text-gray-600">Leading with a vision for innovation and growth.</p>
+                <p className="text-gray-600">Leading with a vision for innovation and growth and Driving our technological advancement and digital transformation.</p>
 
                 <div className="flex mt-6 space-x-3">
                   <a
@@ -433,8 +433,8 @@ export default function AboutPage() {
             >
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=300&width=300"
-                  alt="John Smith"
+                  src="/dishant.jpeg?height=300&width=300"
+                  alt="dishant"
                   fill
                   className="object-cover object-center"
                 />
@@ -442,7 +442,7 @@ export default function AboutPage() {
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-1 text-gray-900">Dishant Kaushik</h3>
                 <p className="text-primary font-medium mb-4">Co-Founder</p>
-                <p className="text-gray-600">Driving our technological advancement and digital transformation.</p>
+                <p className="text-gray-600">Leading with a vision for innovation and growth</p>
 
                 <div className="flex mt-6 space-x-3">
                   <a

@@ -10,18 +10,18 @@ export default function TestimonialCarousel() {
   const testimonials = [
     {
       quote: "This platform made managing my accounts so easy! I love the real-time transaction updates.",
-      author: "Sarah M., Customer Since 2023",
-      image: "/placeholder.svg?height=80&width=80",
+      author: "Sarah Mctominay, Customer Since 2023",
+      image: "/avatar-1.png?height=80&width=80",
     },
     {
       quote: "Applying for a loan was seamless, and the interest rates are fantastic!",
-      author: "John D., Customer Since 2022",
-      image: "/placeholder.svg?height=80&width=80",
+      author: "John Dawson, Customer Since 2022",
+      image: "/avatar-2.png?height=80&width=80",
     },
     {
       quote: "I feel secure knowing my data is protected. Great service!",
-      author: "Emily R., Customer Since 2024",
-      image: "/placeholder.svg?height=80&width=80",
+      author: "Emily Rose, Customer Since 2024",
+      image: "/avatar-3.png?height=80&width=80",
     },
   ]
 

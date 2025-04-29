@@ -114,7 +114,7 @@ export default function ContactPage() {
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <Image
-              src="/placeholder.svg?height=300&width=300"
+              src="/contact.png?height=300&width=300"
               alt="Customer Support"
               width={300}
               height={300}

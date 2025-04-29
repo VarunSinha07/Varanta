@@ -48,7 +48,7 @@ export default function ServicesPage() {
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <Image
-              src="/placeholder.svg?height=400&width=800"
+              src="/services.png?height=400&width=800"
               alt="Financial Dashboard"
               width={800}
               height={400}
